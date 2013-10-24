@@ -2,7 +2,6 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
