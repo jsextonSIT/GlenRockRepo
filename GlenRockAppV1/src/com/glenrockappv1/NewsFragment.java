@@ -22,10 +22,8 @@ public class NewsFragment extends SherlockListFragment {
 	public ArrayList<String> titles;
 	public NewsListAdapter adapter;
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_news,
-				container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_news,container, false);
 		return view;
 	}
 

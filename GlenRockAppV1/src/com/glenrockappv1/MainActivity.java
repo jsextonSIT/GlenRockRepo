@@ -18,6 +18,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends SherlockFragmentActivity{
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
+	private final static String TAG_CONTACT_BUTTONS_FRAGMENT = "CONTACT_BUTTONS_FRAGMENT";
 	private ListView navDrawerList;
 	private DrawerLayout navDrawerLayout;
 	private ArrayList<String> fragTitles;
@@ -109,6 +110,9 @@ public class MainActivity extends SherlockFragmentActivity{
 				transaction.commit();
 				break;
 			case 2:
+				//Contact
+				ContactFragment cfragment = new ContactFragment();
+				transaction.replace(R.id.fragment_container, cfragment, TAG_CONTACT_BUTTONS_FRAGMENT);
 				break;
 			}
 			this.setTitle(fragTitles.get(position));
