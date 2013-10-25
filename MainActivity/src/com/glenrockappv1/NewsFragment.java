@@ -31,8 +31,8 @@ public class NewsFragment extends SherlockListFragment {
 	public void onStart(){
 		super.onStart();
 		//Very hackish way to exchange this data, will find better solution later
-		stockNewsTitles = ((MainActivity)getActivity()).getStockNewsTitles();
-		stockNewsSnipps = ((MainActivity)getActivity()).getStockNewsSnipps();
+		stockNewsTitles = ((MainActivity)getActivity()).stockNewsTitles;
+		stockNewsSnipps = ((MainActivity)getActivity()).stockNewsSnipps;
 		//initialize all nids to 0 since theyre unused right now
 		for (int i = 0; i < 6; i++){
 			//nid.set(0,  0);

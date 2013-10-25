@@ -15,8 +15,8 @@ public class ContactFragment extends SherlockListFragment{
 	public ContactListAdapter adapter;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.contact_button_fragment,container, false);
-
+		View view = inflater.inflate(R.layout.fragment_news,container, false);
+		contactButtonNames = ((MainActivity)getActivity()).contactButtonNames;
 		return view;
 	}
 
@@ -24,9 +24,8 @@ public class ContactFragment extends SherlockListFragment{
 	public void onStart(){
 		super.onStart();
 
-		contactButtonNames = ((MainActivity)getActivity()).getContactButtonNames();
-		adapter = new ContactListAdapter(getActivity(), contactButtonNames);
-		Log.i("buttons", contactButtonNames.get(0));
+		adapter = new ContactListAdapter(getActivity());
+		
 		setListAdapter(adapter);
 		
 	}
