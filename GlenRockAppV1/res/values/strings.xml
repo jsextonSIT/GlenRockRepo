@@ -34,8 +34,24 @@
         <item>For the past several years, a community-wide project called “The Big Sweep” has been working to ease the burden of fall cleanup for Glen Rock’s senior citizens. Residents in town, including students, families, scouts and church and community groups have generously volunteered their time and efforts to assist their neighbors with raking.</item>
     </string-array>
     <string-array name="contact_button_names">
-        <item >Contact Person A</item>
-        <item >Contact Person B</item>
-        <item >Contact Person C</item>
+        <item >Emergency (911)</item>
+        <item >Report a problem</item>
+        <item >Administration</item>
+        <item >Building Dept</item>
+        <item >Dept of Public Works</item>
+        <item >Mayor and Council</item>
+        <item >Parks and Recreation Director</item>
+        <item >Police (non-emergency)</item>
     </string-array>
+    <string-array name="contact0_emails">
+        <item >911@glenrocknj.net</item>
+    </string-array>
+    <string-array name="contact1_emails"></string-array>
+    <string-array name="contact2_emails"></string-array>
+    <string-array name="contact3_emails"></string-array>
+    <string-array name="contact4_emails"></string-array>
+    <string-array name="contact5_emails"></string-array>
+    <string-array name="contact6_emails"></string-array>
+    <string-array name="contact7_emails"></string-array>
+    <string-array name="contact8_emails"></string-array>
 </resources>

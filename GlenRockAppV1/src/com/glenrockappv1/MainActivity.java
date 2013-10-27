@@ -18,10 +18,10 @@ import com.actionbarsherlock.view.MenuItem;
 public class MainActivity extends SherlockFragmentActivity{
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
 	private final static String TAG_CONTACT_BUTTONS_FRAGMENT = "CONTACT_BUTTONS_FRAGMENT";
+	private final static String TAG_CONTACT_FORM_FRAGMENT = "CONTACT_FORM_FRAGMENT";
+	
 	private ListView navDrawerList;
-	private ArrayList<String> contactButtonNames;
 	private DrawerLayout navDrawerLayout;
-	private ArrayList<String> fragTitles;
 	private ActionBarDrawerToggle navDrawerToggle;
 	private FragmentManager fragmentManager;
 	private int cFragment; //current fragment index, starting at 0, opens to 1(news)
@@ -29,7 +29,11 @@ public class MainActivity extends SherlockFragmentActivity{
 	//Delete these later
 	private ArrayList<String> stockNewsTitles;
 	private ArrayList<String> stockNewsSnipps;
-
+	private ArrayList<String> fragTitles;
+	
+	//Contact page
+	private ArrayList<String> contactButtonNames;
+	private ArrayList<String> emailList;
 	@Override
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,9 @@ public class MainActivity extends SherlockFragmentActivity{
 	}
 	public ArrayList<String> getContactButtonNames(){
 		return contactButtonNames;
+	}
+	public ArrayList<String> getEmailList(){
+		return emailList;
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,6 +137,30 @@ public class MainActivity extends SherlockFragmentActivity{
 			cFragment = position;
 		}
 		navDrawerLayout.closeDrawer(navDrawerList);
+	}
+	
+	public void contactButtonFragmentNavigator(int position) {
+		fragmentManager = getSupportFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		ContactFormFragment contact_form_fragment = new ContactFormFragment();
+		Bundle b = new Bundle();
+		b.putInt("position", position);
+		contact_form_fragment.setArguments(b);
+		switch(position){
+		case 0:
+			emailList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.contact0_emails)));
+			break;
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		}
+		transaction.replace(R.id.fragment_container, contact_form_fragment, TAG_CONTACT_FORM_FRAGMENT);
+		transaction.commit();
 	}
 	
 	@Override

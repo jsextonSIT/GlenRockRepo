@@ -7,6 +7,7 @@
 
     <Button
         android:id="@+id/contact_button1"
+        android:textColor="@color/blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

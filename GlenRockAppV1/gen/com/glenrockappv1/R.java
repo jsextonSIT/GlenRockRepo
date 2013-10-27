@@ -9,6 +9,15 @@ package com.glenrockappv1;
 
 public final class R {
     public static final class array {
+        public static final int contact0_emails=0x7f0b0004;
+        public static final int contact1_emails=0x7f0b0005;
+        public static final int contact2_emails=0x7f0b0006;
+        public static final int contact3_emails=0x7f0b0007;
+        public static final int contact4_emails=0x7f0b0008;
+        public static final int contact5_emails=0x7f0b0009;
+        public static final int contact6_emails=0x7f0b000a;
+        public static final int contact7_emails=0x7f0b000b;
+        public static final int contact8_emails=0x7f0b000c;
         public static final int contact_button_names=0x7f0b0003;
         public static final int navigation_array=0x7f0b0000;
         public static final int stock_news_fillers=0x7f0b0002;
@@ -969,7 +978,6 @@ containing a value of this type.
         public static final int disableHome=0x7f040009;
         public static final int drawer_layout=0x7f040032;
         public static final int editText1=0x7f040039;
-        public static final int editText2=0x7f040038;
         public static final int edit_query=0x7f040026;
         public static final int fragment_container=0x7f040033;
         public static final int homeAsUp=0x7f040006;
@@ -978,6 +986,7 @@ containing a value of this type.
         public static final int nav_list_item=0x7f04003b;
         public static final int news_card=0x7f04003c;
         public static final int normal=0x7f040001;
+        public static final int sending_to_edittext=0x7f040038;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
