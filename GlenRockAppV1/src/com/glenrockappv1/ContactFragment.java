@@ -2,7 +2,9 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,12 +66,40 @@ public class ContactFragment extends SherlockListFragment{
 		}
 		private class contactClickListener implements Button.OnClickListener{
 			private int currentPosition;
+			private int displayOptions;
+			private final CharSequence[] options = {"Email", "Call"};
 			public contactClickListener(int p){
-				currentPosition = p;				
+				currentPosition = p;
+				displayOptions = ((MainActivity)ContactFragment.this.getActivity()).getNoneOrPhoneOrEmailOrBoth(p);
 			}
 			public void onClick(View view){
 				Log.i("contact", "" + currentPosition);
-				((MainActivity) ContactFragment.this.getActivity()).contactButtonFragmentNavigator(currentPosition);
+				switch(displayOptions){
+				case 0:
+					break;
+				case 1:
+					//call phone number
+					break;
+				case 2:
+					((MainActivity) ContactFragment.this.getActivity()).contactButtonFragmentNavigator(currentPosition);
+					break;
+				case 3:
+					AlertDialog.Builder builder = new AlertDialog.Builder(((MainActivity)getActivity()).context);
+					builder.setItems(options, new DialogInterface.OnClickListener() {
+					    @Override
+					    public void onClick(DialogInterface dialog, int which) {
+					        if(which == 0){
+								((MainActivity) ContactFragment.this.getActivity()).contactButtonFragmentNavigator(currentPosition);
+					        }
+					        else if (which == 1){
+					        	//call phone number
+					        }
+					    }
+					});
+					builder.show();
+					break;
+				}
+					
 			}
 		}
 	}

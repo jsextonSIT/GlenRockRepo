@@ -2,6 +2,8 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +22,7 @@ public class MainActivity extends SherlockFragmentActivity{
 	private final static String TAG_CONTACT_BUTTONS_FRAGMENT = "CONTACT_BUTTONS_FRAGMENT";
 	private final static String TAG_CONTACT_FORM_FRAGMENT = "CONTACT_FORM_FRAGMENT";
 	
+	public Context context;
 	private ListView navDrawerList;
 	private DrawerLayout navDrawerLayout;
 	private ActionBarDrawerToggle navDrawerToggle;
@@ -34,15 +37,18 @@ public class MainActivity extends SherlockFragmentActivity{
 	//Contact page
 	private ArrayList<String> contactButtonNames;
 	private ArrayList<String> emailList;
+	private int[] NoneOrPhoneOrEmailOrBoth;
 	@Override
 	
 	protected void onCreate(Bundle savedInstanceState) {
+		context = this;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		fragTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.navigation_array)));
 		stockNewsTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_headers)));
 		stockNewsSnipps = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_fillers)));
 		contactButtonNames = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.contact_button_names)));
+		NoneOrPhoneOrEmailOrBoth = getResources().getIntArray(R.array.PhoneOrEmailOrBoth);
 		navDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navDrawerList = (ListView) findViewById(R.id.left_drawer);
 		navDrawerList.setAdapter(new NavListAdapter(this, fragTitles));
@@ -112,7 +118,7 @@ public class MainActivity extends SherlockFragmentActivity{
 		}
 	}
 	private void navPage(int position) {
-		if (cFragment != position){
+		if (true){
 			navDrawerList.setItemChecked(position, true);
 			fragmentManager = getSupportFragmentManager();
 			FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -159,10 +165,13 @@ public class MainActivity extends SherlockFragmentActivity{
 		case 7:
 		case 8:
 		}
-		transaction.replace(R.id.fragment_container, contact_form_fragment, TAG_CONTACT_FORM_FRAGMENT);
+		transaction.replace(R.id.fragment_container, contact_form_fragment, TAG_CONTACT_FORM_FRAGMENT).addToBackStack("contactform");
 		transaction.commit();
 	}
 	
+	public int getNoneOrPhoneOrEmailOrBoth(int i){
+		return NoneOrPhoneOrEmailOrBoth[i];
+	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);

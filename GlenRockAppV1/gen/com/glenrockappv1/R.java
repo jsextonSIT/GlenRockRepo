@@ -9,6 +9,7 @@ package com.glenrockappv1;
 
 public final class R {
     public static final class array {
+        public static final int PhoneOrEmailOrBoth=0x7f0b000d;
         public static final int contact0_emails=0x7f0b0004;
         public static final int contact1_emails=0x7f0b0005;
         public static final int contact2_emails=0x7f0b0006;

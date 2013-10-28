@@ -54,4 +54,15 @@
     <string-array name="contact6_emails"></string-array>
     <string-array name="contact7_emails"></string-array>
     <string-array name="contact8_emails"></string-array>
+    <integer-array name="PhoneOrEmailOrBoth">
+        <item >3</item>
+        <item >2</item>
+        <item >2</item>
+        <item >2</item>
+        <item >2</item>
+        <item >2</item>
+        <item >2</item>
+        <item >2</item>
+        <item >2</item>
+    </integer-array>
 </resources>
