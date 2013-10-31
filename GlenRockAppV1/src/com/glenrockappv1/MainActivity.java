@@ -18,8 +18,11 @@ import com.actionbarsherlock.view.MenuItem;
 public class MainActivity extends SherlockFragmentActivity{
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
 	private final static String TAG_CONTACT_BUTTONS_FRAGMENT = "CONTACT_BUTTONS_FRAGMENT";
+	private final static String TAG_GO_LOCAL_BUTTONS_FRAGMENT = "GO_LOCAL_BUTTONS_FRAGMENT";
+	private final static String TAG_GO_LOCAL_DIRECTORY_FRAGMENT = "GO_LOCAL_DIRECTORY_FRAGMENT";
 	private ListView navDrawerList;
 	private ArrayList<String> contactButtonNames;
+	private ArrayList<String> goLocalButtonNames;
 	private DrawerLayout navDrawerLayout;
 	private ArrayList<String> fragTitles;
 	private ActionBarDrawerToggle navDrawerToggle;
@@ -39,6 +42,7 @@ public class MainActivity extends SherlockFragmentActivity{
 		stockNewsTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_headers)));
 		stockNewsSnipps = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_fillers)));
 		contactButtonNames = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.contact_button_names)));
+		goLocalButtonNames = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.go_local_button_names)));
 		navDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navDrawerList = (ListView) findViewById(R.id.left_drawer);
 		navDrawerList.setAdapter(new NavListAdapter(this, fragTitles));
@@ -68,6 +72,9 @@ public class MainActivity extends SherlockFragmentActivity{
 	}
 	public ArrayList<String> getContactButtonNames(){
 		return contactButtonNames;
+	}
+	public ArrayList<String> getGoLocalButtonNames(){
+		return goLocalButtonNames;
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,6 +126,12 @@ public class MainActivity extends SherlockFragmentActivity{
 				transaction.replace(R.id.fragment_container, hfragment, TAG_NEWS_FRAGMENT);
 				transaction.commit();
 				break;
+			case 3:
+				//GoLocal
+				GoLocalFragment glfragment = new GoLocalFragment();
+				transaction.replace(R.id.fragment_container, glfragment, TAG_GO_LOCAL_BUTTONS_FRAGMENT);
+				transaction.commit();
+				break;
 			case 5:
 				//Contact
 				ContactFragment contact_fragment = new ContactFragment();
@@ -132,6 +145,27 @@ public class MainActivity extends SherlockFragmentActivity{
 		navDrawerLayout.closeDrawer(navDrawerList);
 	}
 	
+	public void goLocalButtonFragmentNavigator(int position) {
+		fragmentManager = getSupportFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		GoLocalDirFragment go_local_dir_fragment = new GoLocalDirFragment();
+		Bundle b = new Bundle();
+		b.putInt("position", position);
+		go_local_dir_fragment.setArguments(b);
+		switch(position){
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		}
+		transaction.replace(R.id.fragment_container, go_local_dir_fragment, TAG_GO_LOCAL_DIRECTORY_FRAGMENT).addToBackStack("goLocalDir");
+		transaction.commit();
+	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
