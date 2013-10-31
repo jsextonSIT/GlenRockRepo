@@ -2,6 +2,7 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,10 +13,10 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class NewsFragment extends SherlockListFragment {
 	//future handle fragment navigation
-	//	public interface EntitySelectedListener {
-	//		public void onEntitySelected(String id, boolean type);
-	//	}
-	//EntitySelectedListener mListener;
+	public interface CardSelectedListener {
+			public void onCardSelected(String id, boolean isNews);
+		}
+	CardSelectedListener newsListener;
 	public ArrayList<String> stockNewsTitles;
 	public ArrayList<String> stockNewsSnipps;
 	public ArrayList<Integer> nid;
@@ -44,7 +45,15 @@ public class NewsFragment extends SherlockListFragment {
 		//fill listview
 		setListAdapter(adapter);
 	}
-
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			newsListener = (CardSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString() + " must implement OnCardSelectedListener");
+		}
+	}
 
 	@Override
 	public void onStop() {

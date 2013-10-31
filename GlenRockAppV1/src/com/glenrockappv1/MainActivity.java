@@ -16,7 +16,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainActivity extends SherlockFragmentActivity{
+public class MainActivity extends SherlockFragmentActivity implements
+	NewsFragment.CardSelectedListener{
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
 	private ListView navDrawerList;
 	private DrawerLayout navDrawerLayout;
@@ -43,7 +44,8 @@ public class MainActivity extends SherlockFragmentActivity{
 		getSupportActionBar().setHomeButtonEnabled(true);
 		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		if (savedInstanceState == null){
-			cFragment = 1; //set fragment as news
+			cFragment = -1; //set fragment as -1 to avoid check 
+			
 		} else {
 			//get fragment number from savedinstancestate to display saved page
 			cFragment = savedInstanceState.getInt("cFragment");
@@ -67,7 +69,9 @@ public class MainActivity extends SherlockFragmentActivity{
 	@Override
 	public void onStart(){
 		super.onStart();
-		navPage(cFragment);
+		navPage(1);//news
+		//possibly get from website to set to 0 (emergency)
+		//consider adding additional loading screen fragment
 	}
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -121,6 +125,12 @@ public class MainActivity extends SherlockFragmentActivity{
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putInt("cFragment", cFragment);
+	}
+
+	@Override
+	public void onCardSelected(String id, boolean isNews) {
+		
+		
 	}
 	
 

@@ -6,7 +6,7 @@
     android:background="#E6E7E8"
     android:gravity="top"
     android:orientation="vertical">    
-    
+    <!-- Use this layout as a loading screen showing while data is loaded from database -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
