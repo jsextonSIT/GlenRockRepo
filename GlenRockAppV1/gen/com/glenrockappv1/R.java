@@ -10,6 +10,10 @@ package com.glenrockappv1;
 public final class R {
     public static final class array {
         public static final int contact_button_names=0x7f0b0003;
+        public static final int go_local_business_addresses=0x7f0b0006;
+        public static final int go_local_business_category_tags=0x7f0b0008;
+        public static final int go_local_business_names=0x7f0b0005;
+        public static final int go_local_business_phone_numbers=0x7f0b0007;
         public static final int go_local_button_names=0x7f0b0004;
         public static final int navigation_array=0x7f0b0000;
         public static final int stock_news_fillers=0x7f0b0002;

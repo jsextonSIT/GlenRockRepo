@@ -44,4 +44,44 @@
         <item >category 3</item>
         <item >category 4</item>
     </string-array>
+    <string-array name="go_local_business_names">
+        <item >business1</item>
+        <item >business2</item>
+        <item >business3</item>
+        <item >business4</item>
+        <item >business5</item>
+        <item >business6</item>
+        <item >business7</item>
+        <item >business8</item>
+    </string-array>
+    <string-array name="go_local_business_addresses">
+        <item >address1</item>
+        <item >address2</item>
+        <item >address3</item>
+        <item >address4</item>
+        <item >address5</item>
+        <item >address6</item>
+        <item >address7</item>
+        <item >address8</item>
+    </string-array>
+    <string-array name="go_local_business_phone_numbers">
+        <item >phone1</item>
+        <item >phone2</item>
+        <item >phone3</item>
+        <item >phone4</item>
+        <item >phone5</item>
+        <item >phone6</item>
+        <item >phone7</item>
+        <item >phone8</item>
+    </string-array>
+    <string-array name="go_local_business_category_tags">
+        <item >1</item>
+        <item >1</item>
+        <item >2</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >2</item>
+        <item >1</item>
+    </string-array>
 </resources>
