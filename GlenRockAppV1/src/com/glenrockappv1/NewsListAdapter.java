@@ -27,8 +27,7 @@ public class NewsListAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		convertView = inflater.inflate(R.layout.news_list_item, parent, false);
 		TextView titleTextView = (TextView) convertView.findViewById(android.R.id.text1);
 		TextView snippTextView = (TextView) convertView.findViewById(android.R.id.text2);

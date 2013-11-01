@@ -33,4 +33,9 @@
 </item>
         <item>For the past several years, a community-wide project called “The Big Sweep” has been working to ease the burden of fall cleanup for Glen Rock’s senior citizens. Residents in town, including students, families, scouts and church and community groups have generously volunteered their time and efforts to assist their neighbors with raking.</item>
     </string-array>
+    <string-array name="contact_button_names">
+        <item >Contact Person A</item>
+        <item >Contact Person B</item>
+        <item >Contact Person C</item>
+    </string-array>
 </resources>

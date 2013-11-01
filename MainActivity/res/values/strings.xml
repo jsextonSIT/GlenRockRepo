@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Glen Rock</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+	<string-array name="navigation_array">
+	    <item>Emergency</item>
+        <item>News</item>
+        <item>Calendar</item>
+        <item>Local</item>
+        <item>Trash/Recycling</item>
+        <item>Contact</item>
+    </string-array>
+    <string name="drawer_open">open drawer</string>
+    <string name="drawer_close">close drawer</string>
+    <string name="read_on">Read On</string>
+    <string-array name="stock_news_headers">
+	    <item>Emerson Road Will be Closed at Belmont Road on Monday 10/14 Due to Ongoing Construction</item>
+        <item>Leaf Collection To Begin on 10/16</item>
+        <item>Glen Rock Police Taking Back Unwanted Prescription Drugs on October 26 at GRPD Headquarters</item>
+        <item>Flu Shots for Residents 18+ Available at Borough Hall on October 7</item>
+        <item>Ad Space Available in 2014 Borough Calendar</item>
+        <item>Seniors &amp; Volunteers: It\'s Time to Sign Up for The Big Sweep!</item>
+    </string-array>
+    <string-array name="stock_news_fillers">
+	    <item>UPDATE 10/11: On Monday October 14th, please avoid the intersection of Emerson Rd. and Belmont Rd. Due to a sewer pipe being installed across Emerson Rd in the afternoon, this intersection will be closed for a period of time with no access. Please use alternate route. Thank you!</item>
+        <item>The Glen Rock Department of Public Works will begin curbside leaf collection on Wednesday, October 16, 2013, in District 1. Weather permitting, collection will continue through December 31, 2013. Leaf collection begins in Voting District 1, then cycles through the remaining 7 districts, and repeats.
+</item>
+        <item>On October 26 from 10 a.m. to 2 p.m. the Glen Rock Police Department and the Drug Enforcement Administration (DEA) will give the public its seventh opportunity in three years to prevent pill abuse and theft by ridding their homes of potentially dangerous expired, unused, and unwanted prescription drugs. Bring your medications for disposal to the Glen Rock Police Department Headquarters at 1 Harding Plaza, Glen Rock NJ. The service is free and anonymous, no questions asked.</item>
+        <item>Seasonal Flu and Pneumonia shots for Glen Rock Residents only will be given Monday, October 7th from 9:30 #8211; 11:30 a.m. (please do not arrive earlier than 9:15 a.m.) at the Glen Rock Municipal Building, 1 Harding Plaza. This year vaccines will be available to any resident 18 years of age or older. </item>
+        <item>If you would like to place an ad in the 2014 borough calendar, the price is $350 for one ad, $550 for two ads and $750 for three ads. Your ad must be in pdf format on a disc and copy ready. 
+</item>
+        <item>For the past several years, a community-wide project called “The Big Sweep” has been working to ease the burden of fall cleanup for Glen Rock’s senior citizens. Residents in town, including students, families, scouts and church and community groups have generously volunteered their time and efforts to assist their neighbors with raking.</item>
+    </string-array>
+</resources>

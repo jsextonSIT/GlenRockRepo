@@ -2,7 +2,6 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +18,9 @@ import com.actionbarsherlock.view.MenuItem;
 public class MainActivity extends SherlockFragmentActivity implements
 	NewsFragment.CardSelectedListener{
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
+	private final static String TAG_CONTACT_BUTTONS_FRAGMENT = "CONTACT_BUTTONS_FRAGMENT";
 	private ListView navDrawerList;
+	private ArrayList<String> contactButtonNames;
 	private DrawerLayout navDrawerLayout;
 	private ArrayList<String> fragTitles;
 	private ActionBarDrawerToggle navDrawerToggle;
@@ -27,16 +28,18 @@ public class MainActivity extends SherlockFragmentActivity implements
 	private int cFragment; //current fragment index, starting at 0, opens to 1(news)
 	
 	//Delete these later
-	public ArrayList<String> stockNewsTitles;
-	public ArrayList<String> stockNewsSnipps;
+	private ArrayList<String> stockNewsTitles;
+	private ArrayList<String> stockNewsSnipps;
 
 	@Override
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		fragTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.navigation_array)));
 		stockNewsTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_headers)));
 		stockNewsSnipps = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_fillers)));
+		contactButtonNames = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.contact_button_names)));
 		navDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navDrawerList = (ListView) findViewById(R.id.left_drawer);
 		navDrawerList.setAdapter(new NavListAdapter(this, fragTitles));
@@ -59,7 +62,15 @@ public class MainActivity extends SherlockFragmentActivity implements
 				);
 		navDrawerLayout.setDrawerListener(navDrawerToggle);
 	}
-
+	public ArrayList<String> getStockNewsSnipps(){
+		return stockNewsSnipps;
+	}
+	public ArrayList<String> getStockNewsTitles(){
+		return stockNewsTitles;
+	}
+	public ArrayList<String> getContactButtonNames(){
+		return contactButtonNames;
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -112,7 +123,11 @@ public class MainActivity extends SherlockFragmentActivity implements
 				transaction.replace(R.id.fragment_container, hfragment, TAG_NEWS_FRAGMENT);
 				transaction.commit();
 				break;
-			case 2:
+			case 5:
+				//Contact
+				ContactFragment contact_fragment = new ContactFragment();
+				transaction.replace(R.id.fragment_container, contact_fragment, TAG_CONTACT_BUTTONS_FRAGMENT);
+				transaction.commit();
 				break;
 			}
 			this.setTitle(fragTitles.get(position));
