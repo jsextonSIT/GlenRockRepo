@@ -39,40 +39,38 @@
         <item >Contact Person C</item>
     </string-array>
     <string-array name="go_local_button_names">
-        <item >category 1</item>
-        <item >category 2</item>
-        <item >category 3</item>
-        <item >category 4</item>
+		<item>Leisure/Entertainment/Arts</item>
+		<item>Education</item>
+		<item>Fitness</item>
+		<item>Home Repair and Construction</item>
+		<item>Healthcare/Medical</item>
+		<item>Real Estate</item>
+		<item>Banking/Financial Services</item>
+		<item>Retail</item>
+		<item>Salons and Spas</item>
+		<item>Restaurants/Food/Catering</item>
+		<item>Professional Services</item>
     </string-array>
-    <string-array name="go_local_business_names">
-        <item >business1</item>
-        <item >business2</item>
-        <item >business3</item>
-        <item >business4</item>
-        <item >business5</item>
-        <item >business6</item>
-        <item >business7</item>
-        <item >business8</item>
+    <string-array name="go_local_leisure_business_names">
+        <item >Leisure Business 1</item>
+        <item >Leisure Business 2</item>
+        <item >Leisure Business 3</item>
+        <item >Leisure Business 4</item>
+        <item >Leisure Business 5</item>
     </string-array>
-    <string-array name="go_local_business_addresses">
-        <item >address1</item>
+    <string-array name="go_local_leisure_business_addresses">
+        <item >address 1</item>
         <item >address2</item>
         <item >address3</item>
         <item >address4</item>
-        <item >address5</item>
-        <item >address6</item>
-        <item >address7</item>
-        <item >address8</item>
-    </string-array>
-    <string-array name="go_local_business_phone_numbers">
+        <item >address 5</item>
+    </string-array> 
+    <string-array name="go_local_leisure_business_phone_numbers">
         <item >phone1</item>
         <item >phone2</item>
-        <item >phone3</item>
-        <item >phone4</item>
-        <item >phone5</item>
-        <item >phone6</item>
-        <item >phone7</item>
-        <item >phone8</item>
+        <item>phone3</item>
+        <item>phone4</item>
+        <item>phone5</item>
     </string-array>
     <string-array name="go_local_business_category_tags">
         <item >1</item>

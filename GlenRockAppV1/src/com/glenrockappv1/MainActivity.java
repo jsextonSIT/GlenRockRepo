@@ -32,6 +32,11 @@ public class MainActivity extends SherlockFragmentActivity{
 	//Delete these later
 	private ArrayList<String> stockNewsTitles;
 	private ArrayList<String> stockNewsSnipps;
+	
+	//Go Local
+	private ArrayList<String> goLocalBusinessNames;
+	private ArrayList<String> goLocalPhoneNumbers;
+	private ArrayList<String> goLocalAddresses;
 
 	@Override
 	
@@ -76,6 +81,16 @@ public class MainActivity extends SherlockFragmentActivity{
 	public ArrayList<String> getGoLocalButtonNames(){
 		return goLocalButtonNames;
 	}
+	public ArrayList<String> getGoLocalBusinessNames(){
+		return goLocalBusinessNames;
+	}
+	public ArrayList<String> getGoLocalPhoneNumbers(){
+		return goLocalPhoneNumbers;
+	}
+	public ArrayList<String> getGoLocalAddresses(){
+		return goLocalAddresses;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -154,6 +169,10 @@ public class MainActivity extends SherlockFragmentActivity{
 		go_local_dir_fragment.setArguments(b);
 		switch(position){
 		case 0:
+			goLocalBusinessNames = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.go_local_leisure_business_names)));
+			goLocalPhoneNumbers = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.go_local_leisure_business_phone_numbers)));
+			goLocalAddresses = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.go_local_leisure_business_addresses)));
+			break;
 		case 1:
 		case 2:
 		case 3:

@@ -57,11 +57,7 @@ public class GoLocalFragment extends SherlockListFragment{
 			LinearLayout ll = (LinearLayout) convertView.findViewById(R.id.go_local_item_ll);
 			b.setText(buttonNames.get(position));
 			Log.i("Button", "position");
-			b.setOnClickListener(new Button.OnClickListener(){
-				public void onClick(View view){
-					
-				}
-			});
+			b.setOnClickListener(new goLocalClickListener(position));
 			return convertView;
 		}
 		private class goLocalClickListener implements Button.OnClickListener{
