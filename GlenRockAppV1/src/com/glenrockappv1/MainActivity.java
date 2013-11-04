@@ -2,21 +2,24 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends SherlockFragmentActivity implements
-	NewsFragment.CardSelectedListener{
+	NewsListAdapter.ArticleSelectedListener{
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
 	private final static String TAG_CONTACT_BUTTONS_FRAGMENT = "CONTACT_BUTTONS_FRAGMENT";
 	private ListView navDrawerList;
@@ -30,15 +33,26 @@ public class MainActivity extends SherlockFragmentActivity implements
 	//Delete these later
 	private ArrayList<String> stockNewsTitles;
 	private ArrayList<String> stockNewsSnipps;
+	private ArrayList<Article> stockNewsArticles;
 
 	@Override
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		stockNewsArticles = new ArrayList<Article>();
+		//titles of pages in nav drawer
 		fragTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.navigation_array)));
+		
+		//stock news titles and text used for example (DELETE THESE LATER)
 		stockNewsTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_headers)));
 		stockNewsSnipps = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_fillers)));
+		//populate a stock article arraylist with data from arrays
+		for(int i = 0;i < 5;i++){
+			Article temp = new Article(i, stockNewsTitles.get(i), stockNewsSnipps.get(i));
+			stockNewsArticles.add(temp);
+		}
+		
 		contactButtonNames = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.contact_button_names)));
 		navDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -62,11 +76,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 				);
 		navDrawerLayout.setDrawerListener(navDrawerToggle);
 	}
-	public ArrayList<String> getStockNewsSnipps(){
-		return stockNewsSnipps;
-	}
-	public ArrayList<String> getStockNewsTitles(){
-		return stockNewsTitles;
+	public ArrayList<Article> getStockNewsArticles(){
+		return stockNewsArticles;
 	}
 	public ArrayList<String> getContactButtonNames(){
 		return contactButtonNames;
@@ -141,12 +152,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putInt("cFragment", cFragment);
 	}
-
+	//Handle creation of article fragments from news fragment
 	@Override
-	public void onCardSelected(String id, boolean isNews) {
-		
+	public void onArticleSelected(Article item) {
+		Log.i("article title", item.title);
+		Log.i("article text", item.text);
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		SherlockFragment fragment = ArticleFragment.newInstance(item);
+		ft.replace(R.id.fragment_container, fragment);
+		ft.addToBackStack(null);
+		ft.commit();
 		
 	}
-	
-
 }

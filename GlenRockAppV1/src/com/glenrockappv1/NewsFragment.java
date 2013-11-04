@@ -13,12 +13,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class NewsFragment extends SherlockListFragment {
 	//future handle fragment navigation
-	public interface CardSelectedListener {
-			public void onCardSelected(String id, boolean isNews);
-		}
-	CardSelectedListener newsListener;
-	public ArrayList<String> stockNewsTitles;
-	public ArrayList<String> stockNewsSnipps;
+	public ArrayList<Article> stockNewsArticles;
 	public ArrayList<Integer> nid;
 	public ArrayList<String> titles;
 	public NewsListAdapter adapter;
@@ -31,27 +26,15 @@ public class NewsFragment extends SherlockListFragment {
 	@Override
 	public void onStart(){
 		super.onStart();
-		//Very hackish way to exchange this data, will find better solution later
-		stockNewsTitles = ((MainActivity)getActivity()).getStockNewsTitles();
-		stockNewsSnipps = ((MainActivity)getActivity()).getStockNewsSnipps();
+		//Very hackish way to exchange this data, will find better solution including data from mysql database
+		stockNewsArticles = ((MainActivity)getActivity()).getStockNewsArticles();
 		//initialize all nids to 0 since theyre unused right now
-		for (int i = 0; i < 6; i++){
-			//nid.set(0,  0);
-			Log.i("titles", stockNewsTitles.get(i));
-		}
-		adapter = new NewsListAdapter(getActivity(), stockNewsTitles, stockNewsSnipps, nid);
+		
+		adapter = new NewsListAdapter(getActivity(), stockNewsArticles);
 		//fill listview
 		setListAdapter(adapter);
 	}
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		try {
-			newsListener = (CardSelectedListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + " must implement OnCardSelectedListener");
-		}
-	}
+	
 
 	@Override
 	public void onStop() {

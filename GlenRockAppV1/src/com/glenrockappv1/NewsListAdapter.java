@@ -4,6 +4,7 @@ package com.glenrockappv1;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +13,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class NewsListAdapter extends ArrayAdapter<String> {
-	ArrayList<String> titles;
-	ArrayList<String> snipps;
-	ArrayList<Integer> nid;
+public class NewsListAdapter extends ArrayAdapter<Article> {
+	public interface ArticleSelectedListener {
+		public void onArticleSelected(Article item);
+	}
+	ArticleSelectedListener articleListener;
+	ArrayList<Article> articles;
 	Context context;
-	public NewsListAdapter(Context context, ArrayList<String> titles, ArrayList<String> snipps, ArrayList<Integer> nid) {
-		super(context, R.layout.news_list_item, titles);
-		this.titles = titles;
-		this.snipps = snipps;
-		this.nid = nid;
+	public NewsListAdapter(Context context, ArrayList<Article> articles) {
+		super(context, R.layout.news_list_item, articles);
+		this.articles = articles;
 		this.context = context;
+		articleListener = (MainActivity) context;
+		/*for (int i = 0; i < 5; i++){
+			Log.i("article title", articles.get(i).title);
+		}*/
 	}
 
 	@Override
@@ -33,11 +38,13 @@ public class NewsListAdapter extends ArrayAdapter<String> {
 		TextView snippTextView = (TextView) convertView.findViewById(android.R.id.text2);
 		//Button readon = (Button) convertView.findViewById(R.id.button_read_on);
 		LinearLayout card = (LinearLayout) convertView.findViewById(R.id.news_card);
-		titleTextView.setText(titles.get(position));
-		snippTextView.setText(snipps.get(position));
+		titleTextView.setText(articles.get(position).title);
+		//Log.i("article title", articles.get(position).title);
+		snippTextView.setText(articles.get(position).text);
+		card.setTag(position);
 		card.setOnClickListener(new Button.OnClickListener() {
-			public void onClick(View view) {
-				//pass nid to method in mainactivity to handle showing snippet pages
+			public void onClick(View view){
+				if (articleListener != null)articleListener.onArticleSelected(articles.get((Integer)view.getTag()));
 			}
 		});
 		return convertView;
