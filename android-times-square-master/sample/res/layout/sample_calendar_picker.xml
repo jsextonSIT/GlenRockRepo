@@ -8,53 +8,45 @@
     >
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content" 
+        android:layout_width="match_parent">
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go" />
+    </LinearLayout> 
+
+    <com.squareup.timessquare.CalendarPickerView
+        android:id="@+id/calendar_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="0dp"
+        android:layout_weight="0.55"
+        android:background="#FFFFFF"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scrollbarStyle="outsideOverlay" >
+    </com.squareup.timessquare.CalendarPickerView>
 
-        <Button
-            android:id="@+id/button_single"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Single"
-            android:enabled="false"/>
-
-        <Button
-            android:id="@+id/button_multi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Multi" />
-
-        <Button
-            android:id="@+id/button_range"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Range" />
-
-      <Button
-          android:id="@+id/button_dialog"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Dialog" />
-
-    </LinearLayout>
-    
-  <com.squareup.timessquare.CalendarPickerView
-      android:id="@+id/calendar_view"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:paddingLeft="16dp"
-      android:paddingRight="16dp"
-      android:paddingBottom="16dp"
-      android:scrollbarStyle="outsideOverlay"
-      android:clipToPadding="false"
-      android:background="#FFFFFF"
-      />
-  <Button
-      android:id="@+id/done_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Done"
-      />
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PUT TODAYS EVENTS HERE!"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>
