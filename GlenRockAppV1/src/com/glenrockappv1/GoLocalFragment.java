@@ -30,7 +30,6 @@ public class GoLocalFragment extends SherlockListFragment{
 
 		goLocalButtonNames = ((MainActivity)getActivity()).getGoLocalButtonNames();
 		adapter = new GoLocalListAdapter(getActivity(), goLocalButtonNames);
-		Log.i("buttons", goLocalButtonNames.get(0));
 		setListAdapter(adapter);
 		
 	}
@@ -51,12 +50,13 @@ public class GoLocalFragment extends SherlockListFragment{
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.go_local_button_fragment_list_item, parent, false);
 			Button b = (Button) convertView.findViewById(R.id.go_local_button1);
 			LinearLayout ll = (LinearLayout) convertView.findViewById(R.id.go_local_item_ll);
 			b.setText(buttonNames.get(position));
-			Log.i("Button", "position");
+			//
 			b.setOnClickListener(new goLocalClickListener(position));
 			return convertView;
 		}

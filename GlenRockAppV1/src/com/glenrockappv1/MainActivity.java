@@ -138,19 +138,19 @@ public class MainActivity extends SherlockFragmentActivity{
 			case 1:
 				//News
 				NewsFragment hfragment = new NewsFragment();
-				transaction.replace(R.id.fragment_container, hfragment, TAG_NEWS_FRAGMENT);
+				transaction.replace(R.id.fragment_container, hfragment, TAG_NEWS_FRAGMENT).addToBackStack("n");
 				transaction.commit();
 				break;
 			case 3:
 				//GoLocal
 				GoLocalFragment glfragment = new GoLocalFragment();
-				transaction.replace(R.id.fragment_container, glfragment, TAG_GO_LOCAL_BUTTONS_FRAGMENT);
+				transaction.replace(R.id.fragment_container, glfragment, TAG_GO_LOCAL_BUTTONS_FRAGMENT).addToBackStack("gl");
 				transaction.commit();
 				break;
 			case 5:
 				//Contact
 				ContactFragment contact_fragment = new ContactFragment();
-				transaction.replace(R.id.fragment_container, contact_fragment, TAG_CONTACT_BUTTONS_FRAGMENT);
+				transaction.replace(R.id.fragment_container, contact_fragment, TAG_CONTACT_BUTTONS_FRAGMENT).addToBackStack("c");
 				transaction.commit();
 				break;
 			}

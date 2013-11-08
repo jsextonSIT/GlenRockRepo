@@ -13,8 +13,11 @@
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:padding="3dp">
+        android:layout_height="wrap_content"
+        android:divider="@color/bg_gray"
+        android:fadeScrollbars="false"
+        android:dividerHeight="0dip"
+        android:padding="1dip">
     </ListView>
 
 </LinearLayout>

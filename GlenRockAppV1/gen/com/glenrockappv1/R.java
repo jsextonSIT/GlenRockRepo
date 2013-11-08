@@ -697,12 +697,13 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f060005;
         public static final int abs__bright_foreground_holo_dark=0x7f060002;
         public static final int abs__bright_foreground_holo_light=0x7f060003;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f060008;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f060009;
-        public static final int abs__primary_text_holo_dark=0x7f06000a;
-        public static final int abs__primary_text_holo_light=0x7f06000b;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f060009;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f06000a;
+        public static final int abs__primary_text_holo_dark=0x7f06000b;
+        public static final int abs__primary_text_holo_light=0x7f06000c;
         public static final int bg_gray=0x7f060006;
         public static final int blue=0x7f060007;
+        public static final int grayish_gray=0x7f060008;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -928,6 +929,10 @@ containing a value of this type.
         public static final int menuicon=0x7f020072;
     }
     public static final class id {
+        public static final int BusinessAddressTextView=0x7f040040;
+        public static final int BusinessNameTextView=0x7f04003f;
+        public static final int BusinessPhoneTextView=0x7f040041;
+        public static final int BusinessWebsiteTextView=0x7f040042;
         public static final int abs__action_bar=0x7f040020;
         public static final int abs__action_bar_container=0x7f04001f;
         public static final int abs__action_bar_subtitle=0x7f040011;
@@ -967,7 +972,7 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040013;
         public static final int abs__title=0x7f04001b;
         public static final int abs__up=0x7f04000b;
-        public static final int action_settings=0x7f040040;
+        public static final int action_settings=0x7f040044;
         public static final int button1=0x7f04003a;
         public static final int contact_button1=0x7f040036;
         public static final int contact_item_ll=0x7f040035;
@@ -977,14 +982,14 @@ containing a value of this type.
         public static final int editText2=0x7f040038;
         public static final int edit_query=0x7f040026;
         public static final int fragment_container=0x7f040033;
-        public static final int glTextView=0x7f04003e;
         public static final int go_local_button1=0x7f04003d;
-        public static final int go_local_item_ll=0x7f04003c;
+        public static final int go_local_dir_item_ll=0x7f04003c;
+        public static final int go_local_item_ll=0x7f04003e;
         public static final int homeAsUp=0x7f040006;
         public static final int left_drawer=0x7f040034;
         public static final int listMode=0x7f040002;
         public static final int nav_list_item=0x7f04003b;
-        public static final int news_card=0x7f04003f;
+        public static final int news_card=0x7f040043;
         public static final int normal=0x7f040001;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
@@ -1028,9 +1033,10 @@ containing a value of this type.
         public static final int go_local_button_fragment=0x7f03001b;
         public static final int go_local_button_fragment_list_item=0x7f03001c;
         public static final int go_local_dir_fragment=0x7f03001d;
-        public static final int news_list_item=0x7f03001e;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001f;
-        public static final int sherlock_spinner_item=0x7f030020;
+        public static final int go_local_dir_fragment_list_item=0x7f03001e;
+        public static final int news_list_item=0x7f03001f;
+        public static final int sherlock_spinner_dropdown_item=0x7f030020;
+        public static final int sherlock_spinner_item=0x7f030021;
     }
     public static final class menu {
         public static final int home=0x7f0c0000;
