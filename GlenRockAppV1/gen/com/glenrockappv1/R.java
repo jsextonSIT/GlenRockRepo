@@ -962,7 +962,10 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040013;
         public static final int abs__title=0x7f04001b;
         public static final int abs__up=0x7f04000b;
-        public static final int action_settings=0x7f04003d;
+        public static final int action_settings=0x7f040040;
+        public static final int article_date=0x7f04003d;
+        public static final int article_text=0x7f04003e;
+        public static final int article_title=0x7f04003c;
         public static final int button1=0x7f04003a;
         public static final int contact_button1=0x7f040036;
         public static final int contact_item_ll=0x7f040035;
@@ -976,7 +979,7 @@ containing a value of this type.
         public static final int left_drawer=0x7f040034;
         public static final int listMode=0x7f040002;
         public static final int nav_list_item=0x7f04003b;
-        public static final int news_card=0x7f04003c;
+        public static final int news_card=0x7f04003f;
         public static final int normal=0x7f040001;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
@@ -1016,10 +1019,11 @@ containing a value of this type.
         public static final int contact_button_fragment_list_item=0x7f030017;
         public static final int contact_form_fragment=0x7f030018;
         public static final int drawer_list_item=0x7f030019;
-        public static final int fragment_news=0x7f03001a;
-        public static final int news_list_item=0x7f03001b;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001c;
-        public static final int sherlock_spinner_item=0x7f03001d;
+        public static final int fragment_article=0x7f03001a;
+        public static final int fragment_news=0x7f03001b;
+        public static final int news_list_item=0x7f03001c;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001d;
+        public static final int sherlock_spinner_item=0x7f03001e;
     }
     public static final class menu {
         public static final int home=0x7f0c0000;

@@ -2,6 +2,7 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,12 +13,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class NewsFragment extends SherlockListFragment {
 	//future handle fragment navigation
-	//	public interface EntitySelectedListener {
-	//		public void onEntitySelected(String id, boolean type);
-	//	}
-	//EntitySelectedListener mListener;
-	public ArrayList<String> stockNewsTitles;
-	public ArrayList<String> stockNewsSnipps;
+	public ArrayList<Article> stockNewsArticles;
 	public ArrayList<Integer> nid;
 	public ArrayList<String> titles;
 	public NewsListAdapter adapter;
@@ -30,19 +26,15 @@ public class NewsFragment extends SherlockListFragment {
 	@Override
 	public void onStart(){
 		super.onStart();
-		//Very hackish way to exchange this data, will find better solution later
-		stockNewsTitles = ((MainActivity)getActivity()).getStockNewsTitles();
-		stockNewsSnipps = ((MainActivity)getActivity()).getStockNewsSnipps();
+		//Very hackish way to exchange this data, will find better solution including data from mysql database
+		stockNewsArticles = ((MainActivity)getActivity()).getStockNewsArticles();
 		//initialize all nids to 0 since theyre unused right now
-		for (int i = 0; i < 6; i++){
-			//nid.set(0,  0);
-			Log.i("titles", stockNewsTitles.get(i));
-		}
-		adapter = new NewsListAdapter(getActivity(), stockNewsTitles, stockNewsSnipps, nid);
+		
+		adapter = new NewsListAdapter(getActivity(), stockNewsArticles);
 		//fill listview
 		setListAdapter(adapter);
 	}
-
+	
 
 	@Override
 	public void onStop() {
