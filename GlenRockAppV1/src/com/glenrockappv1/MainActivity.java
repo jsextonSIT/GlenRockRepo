@@ -2,20 +2,24 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainActivity extends SherlockFragmentActivity{
+public class MainActivity extends SherlockFragmentActivity implements
+	NewsListAdapter.ArticleSelectedListener{
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
 	private final static String TAG_CONTACT_BUTTONS_FRAGMENT = "CONTACT_BUTTONS_FRAGMENT";
 	private final static String TAG_GO_LOCAL_BUTTONS_FRAGMENT = "GO_LOCAL_BUTTONS_FRAGMENT";
@@ -32,20 +36,34 @@ public class MainActivity extends SherlockFragmentActivity{
 	//Delete these later
 	private ArrayList<String> stockNewsTitles;
 	private ArrayList<String> stockNewsSnipps;
+<<<<<<< HEAD
 	
 	//Go Local
 	private ArrayList<String> goLocalBusinessNames;
 	private ArrayList<String> goLocalPhoneNumbers;
 	private ArrayList<String> goLocalAddresses;
+=======
+	private ArrayList<Article> stockNewsArticles;
+>>>>>>> origin/suketus_test_branch
 
 	@Override
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		stockNewsArticles = new ArrayList<Article>();
+		//titles of pages in nav drawer
 		fragTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.navigation_array)));
+		
+		//stock news titles and text used for example (DELETE THESE LATER)
 		stockNewsTitles = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_headers)));
 		stockNewsSnipps = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.stock_news_fillers)));
+		//populate a stock article arraylist with data from arrays
+		for(int i = 0;i < 5;i++){
+			Article temp = new Article(i, stockNewsTitles.get(i), stockNewsSnipps.get(i));
+			stockNewsArticles.add(temp);
+		}
+		
 		contactButtonNames = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.contact_button_names)));
 		goLocalButtonNames = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.go_local_button_names)));
 		navDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -55,7 +73,8 @@ public class MainActivity extends SherlockFragmentActivity{
 		getSupportActionBar().setHomeButtonEnabled(true);
 		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		if (savedInstanceState == null){
-			cFragment = 1; //set fragment as news
+			cFragment = -1; //set fragment as -1 to avoid check 
+			
 		} else {
 			//get fragment number from savedinstancestate to display saved page
 			cFragment = savedInstanceState.getInt("cFragment");
@@ -69,11 +88,8 @@ public class MainActivity extends SherlockFragmentActivity{
 				);
 		navDrawerLayout.setDrawerListener(navDrawerToggle);
 	}
-	public ArrayList<String> getStockNewsSnipps(){
-		return stockNewsSnipps;
-	}
-	public ArrayList<String> getStockNewsTitles(){
-		return stockNewsTitles;
+	public ArrayList<Article> getStockNewsArticles(){
+		return stockNewsArticles;
 	}
 	public ArrayList<String> getContactButtonNames(){
 		return contactButtonNames;
@@ -100,7 +116,9 @@ public class MainActivity extends SherlockFragmentActivity{
 	@Override
 	public void onStart(){
 		super.onStart();
-		navPage(cFragment);
+		navPage(1);//news
+		//possibly get from website to set to 0 (emergency)
+		//consider adding additional loading screen fragment
 	}
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -190,6 +208,16 @@ public class MainActivity extends SherlockFragmentActivity{
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putInt("cFragment", cFragment);
 	}
-	
-
+	//Handle creation of article fragments from news fragment
+	@Override
+	public void onArticleSelected(Article item) {
+		Log.i("article title", item.title);
+		Log.i("article text", item.text);
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		SherlockFragment fragment = ArticleFragment.newInstance(item);
+		ft.replace(R.id.fragment_container, fragment);
+		ft.addToBackStack(null);
+		ft.commit();
+		
+	}
 }
