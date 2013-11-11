@@ -1,8 +1,19 @@
 package com.glenrockappv1;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -29,11 +41,12 @@ public class MainActivity extends SherlockFragmentActivity implements
 	private ActionBarDrawerToggle navDrawerToggle;
 	private FragmentManager fragmentManager;
 	private int cFragment; //current fragment index, starting at 0, opens to 1(news)
-	
+	private String jsonResult;
 	//Delete these later
 	private ArrayList<String> stockNewsTitles;
 	private ArrayList<String> stockNewsSnipps;
 	private ArrayList<Article> stockNewsArticles;
+	private String url = "http://www.glenrocknj.net/";
 
 	@Override
 	
@@ -164,4 +177,48 @@ public class MainActivity extends SherlockFragmentActivity implements
 		ft.commit();
 		
 	}
+	// Async Task to access the web
+	 private class NewsAsyncTask extends AsyncTask<String, Void, String> {
+	  @Override
+	  protected String doInBackground(String... params) {
+	   HttpClient httpclient = new DefaultHttpClient();
+	   HttpPost httppost = new HttpPost(params[0]);
+	   try {
+	    HttpResponse response = httpclient.execute(httppost);
+	    jsonResult = inputStreamToString(
+	      response.getEntity().getContent()).toString();
+	   }
+	 
+	   catch (ClientProtocolException e) {
+	    e.printStackTrace();
+	   } catch (IOException e) {
+	    e.printStackTrace();
+	   }
+	   return null;
+	  }
+	 
+	  private StringBuilder inputStreamToString(InputStream is) {
+	   String rLine = "";
+	   StringBuilder answer = new StringBuilder();
+	   BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+	 
+	   try {
+	    while ((rLine = rd.readLine()) != null) {
+	     answer.append(rLine);
+	    }
+	   }
+	 
+	   catch (IOException e) {
+	    // e.printStackTrace();
+	    Toast.makeText(getApplicationContext(),
+	      "Error..." + e.toString(), Toast.LENGTH_LONG).show();
+	   }
+	   return answer;
+	  }
+	 
+	  @Override
+	  protected void onPostExecute(String result) {
+	   //ListDrwaer();
+	  }
+	 }// end async task
 }
