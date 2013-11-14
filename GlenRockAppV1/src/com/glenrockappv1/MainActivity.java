@@ -36,15 +36,12 @@ public class MainActivity extends SherlockFragmentActivity implements
 	//Delete these later
 	private ArrayList<String> stockNewsTitles;
 	private ArrayList<String> stockNewsSnipps;
-<<<<<<< HEAD
 	
 	//Go Local
 	private ArrayList<String> goLocalBusinessNames;
 	private ArrayList<String> goLocalPhoneNumbers;
 	private ArrayList<String> goLocalAddresses;
-=======
 	private ArrayList<Article> stockNewsArticles;
->>>>>>> origin/suketus_test_branch
 
 	@Override
 	
@@ -145,7 +142,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 	}
 	private void navPage(int position) {
-		if (cFragment != position){
+		if (true){
 			navDrawerList.setItemChecked(position, true);
 			fragmentManager = getSupportFragmentManager();
 			FragmentTransaction transaction = fragmentManager.beginTransaction();
