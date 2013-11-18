@@ -29,6 +29,7 @@ local.properties
 .buildpath
 
 GlenRockAppV1/gen/com/glenrockappv1
+GlenRockAppV1/gen/com/glenrockappv1/actionbarsherlock/
 
 
 #################
