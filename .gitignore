@@ -28,7 +28,7 @@ local.properties
 # PDT-specific
 .buildpath
 
-GlenRockAppV1/gen/
+GlenRockAppV1/gen/com/glenrockappv1
 
 
 #################
