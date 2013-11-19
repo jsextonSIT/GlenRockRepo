@@ -1,4 +1,4 @@
-package com.examples.android.calendar;
+package com.glenrockappv1;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
