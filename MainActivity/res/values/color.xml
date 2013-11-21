@@ -1,4 +1,5 @@
 <resources>
 	<color name="bg_gray">#D8D8D8</color>
 	<color name="blue">#0066FF</color>
+	<color name="red">#FF0000</color>
 </resources>
