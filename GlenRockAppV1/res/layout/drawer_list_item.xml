@@ -1,0 +1,30 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_list_item"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:orientation="horizontal" 
+    android:padding="3dp">
+	<!-- For images next to each item
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
+ -->
+    <TextView
+        android:id="@android:id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp" 
+    	android:paddingRight="10dp"
+    	android:paddingLeft="3dp"/>
+
+</LinearLayout>
+<!-- android:background="?android:attr/activatedBackgroundIndicator"/> -->
+<!-- android:textAppearance="?android:attr/textAppearanceListItemSmall" -->
+<!-- android:minHeight="?android:attr/listPreferredItemHeightSmall" -->
