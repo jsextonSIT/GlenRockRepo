@@ -2,6 +2,10 @@ package com.glenrockappv1;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -22,6 +26,7 @@ public class GoLocalDirFragment extends SherlockListFragment{
 	private ArrayList<String> businessPhones;
 	private ArrayList<String> businessAddresses;
 	private ArrayList<String> businessWebsites;
+	private JSONArray jArray;
 	private String textViewString;
 	private int goLocalPosition;
 	public GoLocalDirListAdapter adapter;
@@ -46,7 +51,9 @@ public class GoLocalDirFragment extends SherlockListFragment{
 		businessPhones = ((MainActivity)getActivity()).getGoLocalPhoneNumbers();
 		businessAddresses = ((MainActivity)getActivity()).getGoLocalAddresses();
 		businessWebsites = ((MainActivity)getActivity()).getGoLocalAddresses();
-		adapter = new GoLocalDirListAdapter(getActivity(), businessNames, businessPhones, businessAddresses, businessWebsites);
+		jArray = ((MainActivity)getActivity()).getGoLocalJSON();
+
+		adapter = new GoLocalDirListAdapter(getActivity(), jArray, businessNames, businessPhones, businessAddresses, businessWebsites);
 		setListAdapter(adapter);
 	}
 	private class GoLocalDirListAdapter extends ArrayAdapter<String>{
@@ -55,9 +62,12 @@ public class GoLocalDirFragment extends SherlockListFragment{
 		private ArrayList<String> BusinessPhones;
 		private ArrayList<String> BusinessAddresses;
 		private ArrayList<String> BusinessWebsites;
+		private JSONArray JArray;
 		
-		public GoLocalDirListAdapter(Context context, ArrayList<String> bn, ArrayList<String> bp, ArrayList<String> ba, ArrayList<String> bw) {
+		public GoLocalDirListAdapter(Context context, JSONArray ja, ArrayList<String> bn, ArrayList<String> bp, ArrayList<String> ba, ArrayList<String> bw) {
 			super(context, R.layout.go_local_button_fragment_list_item, bn);
+			
+			JArray = ja;
 			
 			BusinessNames = bn;
 			BusinessPhones = bp;
@@ -80,10 +90,21 @@ public class GoLocalDirFragment extends SherlockListFragment{
 			phonetv = (TextView) convertView.findViewById(R.id.BusinessPhoneTextView);
 			sitetv = (TextView) convertView.findViewById(R.id.BusinessWebsiteTextView);
 			
-			nametv.setText(BusinessNames.get(position));
-			addresstv.setText(BusinessAddresses.get(position));
-			phonetv.setText(BusinessPhones.get(position));
-			sitetv.setText(BusinessWebsites.get(position));
+			try {
+				JSONObject jObj = jArray.getJSONObject(position);
+				nametv.setText(jObj.getString("Business_Name"));
+				addresstv.setText(jObj.getString("Business_Address"));
+				phonetv.setText(jObj.getString("Business_Phone"));
+				sitetv.setText(jObj.getString("Business_Website"));
+			} catch (JSONException e) {
+				Log.e("GoLocalDirFragment", "error retreiving json" + e.toString());
+				e.printStackTrace();
+			}
+			
+//			nametv.setText(BusinessNames.get(position));
+//			addresstv.setText(BusinessAddresses.get(position));
+//			phonetv.setText(BusinessPhones.get(position));
+//			sitetv.setText(BusinessWebsites.get(position));
 			return convertView;
 		}
 	}
