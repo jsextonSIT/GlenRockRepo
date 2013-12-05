@@ -65,12 +65,19 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 	private SharedPreferences sp;
 	private String SP_NAME;
 	private Resources res;
-	@Override
 	
+	//Debug for developers
+	private boolean debug;
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
-		setContentView(R.layout.activity_main);
+		debug = false;
+		if (debug){
+			setContentView(R.layout.welcome_layout);
+		} else {
+			setContentView(R.layout.activity_main);
+		}
 		//RESOURCES AND SHARED PREFERENCES
 		res = getResources();
 		SP_NAME = res.getString(R.string.SP_NAME);
@@ -215,34 +222,34 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 			fragmentManager = getSupportFragmentManager();
 			FragmentTransaction transaction = fragmentManager.beginTransaction();
 			switch(position) { 
+//			case 0:
+//				//Emergency
+//				break;
 			case 0:
-				//Emergency
-				break;
-			case 1:
 				//News
 				NewsFragment hfragment = new NewsFragment();
 				transaction.replace(R.id.fragment_container, hfragment, TAG_NEWS_FRAGMENT).addToBackStack("n");
 				transaction.commit();
 				break;
-			case 2:
+			case 1:
 				//Calendar
 				CalendarFragment calfragment = new CalendarFragment();
 				transaction.replace(R.id.fragment_container, calfragment, TAG_CALENDAR_FRAGMENT).addToBackStack("c");
 				transaction.commit();
 				break;
-			case 3:
+			case 2:
 				//GoLocal
 				GoLocalFragment glfragment = new GoLocalFragment();
 				transaction.replace(R.id.fragment_container, glfragment, TAG_GO_LOCAL_BUTTONS_FRAGMENT).addToBackStack("gl");
 				transaction.commit();
 				break;
-			case 4:
+			case 3:
 				//Trash
 				TrashFragment trashfragment = new TrashFragment();
 				transaction.replace(R.id.fragment_container,  trashfragment, TAG_TRASH_FRAGMENT).addToBackStack("t");
 				transaction.commit();
 				break;
-			case 5:
+			case 4:
 				//Contact
 				ContactFragment contact_fragment = new ContactFragment();
 				transaction.replace(R.id.fragment_container, contact_fragment, TAG_CONTACT_BUTTONS_FRAGMENT).addToBackStack("c");
