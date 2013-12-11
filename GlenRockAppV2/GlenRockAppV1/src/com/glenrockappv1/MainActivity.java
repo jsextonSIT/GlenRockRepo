@@ -77,7 +77,8 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 	private ArrayList<String> goLocalBusinessNames;
 	private ArrayList<String> goLocalPhoneNumbers;
 	private ArrayList<String> goLocalAddresses;
-
+	private ArrayList<String> goLocalWebsites;
+		
 	//Contact page
 	private ArrayList<String> contactButtonNames;
 	private ArrayList<String> emailList;
@@ -100,7 +101,10 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 		sp = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
 		spe = sp.edit();
 		
-		goLocalBusinessNames = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.go_local_leisure_business_names)));
+		goLocalBusinessNames = new ArrayList<String>();
+		goLocalAddresses = new ArrayList<String>();
+		goLocalPhoneNumbers = new ArrayList<String>();
+		goLocalWebsites = new ArrayList<String>();
 		//this is hacky ^ we need to fix goLocalDirFragment because it crashes if this is null. 
 		
 		//NEWS
@@ -139,14 +143,7 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 //			Log.e("MainActivity_jTask", e.toString());
 //		}
 		
-//		//CREATING JSON OBJECT
-//		try {
-//			JSONObject jObject = new JSONObject(result);
-//			Log.v("GetJsonTask_jObject", jObject.toString());
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			Log.v("GetJsonTask", "exception making json object: " + e.toString());
-//		}
+
 		
 		//CALENDAR
 		calendarArticles = new ArrayList<CalendarEventArticle>();
@@ -239,6 +236,9 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 	}
 	public ArrayList<String> getGoLocalAddresses(){
 		return goLocalAddresses;
+	}
+	public ArrayList<String> getGoLocalWebsites(){
+		return goLocalWebsites;
 	}
 	
 	@Override
@@ -334,46 +334,43 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 		
 		switch(position){
 		case 0:
-			goLocalBusinessNames = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.go_local_leisure_business_names)));
-			goLocalPhoneNumbers = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.go_local_leisure_business_phone_numbers)));
-			goLocalAddresses = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.go_local_leisure_business_addresses)));
-//			//break;
 			json_key = "entertainment";
 			break;
 		case 1:
 			json_key = "education";
 			break;
 		case 2:
-		case 3:
 			json_key = "construction";
 			break;
-		case 4:
+		case 3:
 			json_key = "medical";
 			break;
-		case 5:
+		case 4:
 			json_key = "housing";
 			break;
-		case 6:
+		case 5:
 			json_key = "banking";
 			break;
-		case 7:
+		case 6:
 			json_key = "retail";
 			break;
-		case 8:
-			goLocalBusinessNames = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.go_local_leisure_business_names)));
-			goLocalPhoneNumbers = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.go_local_leisure_business_phone_numbers)));
-			goLocalAddresses = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.go_local_leisure_business_addresses)));
-		
+		case 7:
 			json_key = "salons";
 			break;
-		case 9:
+		case 8:
 			json_key = "food";
 			break;
-		case 10:
+		case 9:
 			json_key = "proServices";
 			break;
 		
 		}
+		//clear all arraylists
+		goLocalBusinessNames.clear();
+		goLocalAddresses.clear();
+		goLocalPhoneNumbers.clear();
+		goLocalWebsites.clear();
+		
 		//GETTIN DAT JSON
 		GetJsonTask jTask = new GetJsonTask();
 		try {
@@ -383,8 +380,27 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 
 			Log.v("MainActivity_jObject", jObject.toString());
 			Log.v("MainActivity_jArray", jArray.toString());
+			
+			Log.v("MainActivity_jArray", "length = " + jArray.length());
+			for (int i=0; i<jArray.length();i++)
+			{
+				goLocalBusinessNames.add(jArray.getJSONObject(i).getString("Business_Name"));
+				goLocalAddresses.add(jArray.getJSONObject(i).getString("Business_Address"));
+				goLocalPhoneNumbers.add(jArray.getJSONObject(i).getString("Business_Phone"));
+				goLocalWebsites.add(jArray.getJSONObject(i).getString("Business_Website"));
+			}
 		} catch (Exception e){
 			Log.e("MainActivity_jTask", e.toString());
+			if (jArray == null)
+			{
+				Log.v("MainActivity_jTask", "jArray is null");
+			} else if (jObject == null) {
+				Log.v("MainActivity_jTask", "jObject is null");
+			} else if (jString == null) {
+				Log.v("MainActivity_jTask", "jString is null"); 
+			} else if (goLocalBusinessNames == null || goLocalAddresses == null || goLocalPhoneNumbers == null || goLocalWebsites == null){
+				Log.v("MainActivity_jTask", "arraylist is null");
+			}
 		}
 		
 		transaction.replace(R.id.fragment_container, go_local_dir_fragment, TAG_GO_LOCAL_DIRECTORY_FRAGMENT).addToBackStack("goLocalDir");

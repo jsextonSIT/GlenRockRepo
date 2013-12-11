@@ -50,7 +50,7 @@ public class GoLocalDirFragment extends SherlockListFragment{
 		businessNames = ((MainActivity)getActivity()).getGoLocalBusinessNames();
 		businessPhones = ((MainActivity)getActivity()).getGoLocalPhoneNumbers();
 		businessAddresses = ((MainActivity)getActivity()).getGoLocalAddresses();
-		businessWebsites = ((MainActivity)getActivity()).getGoLocalAddresses();
+		businessWebsites = ((MainActivity)getActivity()).getGoLocalWebsites();
 		jArray = ((MainActivity)getActivity()).getGoLocalJSON();
 
 		adapter = new GoLocalDirListAdapter(getActivity(), jArray, businessNames, businessPhones, businessAddresses, businessWebsites);
@@ -90,21 +90,21 @@ public class GoLocalDirFragment extends SherlockListFragment{
 			phonetv = (TextView) convertView.findViewById(R.id.BusinessPhoneTextView);
 			sitetv = (TextView) convertView.findViewById(R.id.BusinessWebsiteTextView);
 			
-			try {
-				JSONObject jObj = jArray.getJSONObject(position);
-				nametv.setText(jObj.getString("Business_Name"));
-				addresstv.setText(jObj.getString("Business_Address"));
-				phonetv.setText(jObj.getString("Business_Phone"));
-				sitetv.setText(jObj.getString("Business_Website"));
-			} catch (JSONException e) {
-				Log.e("GoLocalDirFragment", "error retreiving json" + e.toString());
-				e.printStackTrace();
-			}
-			
-//			nametv.setText(BusinessNames.get(position));
-//			addresstv.setText(BusinessAddresses.get(position));
-//			phonetv.setText(BusinessPhones.get(position));
-//			sitetv.setText(BusinessWebsites.get(position));
+//			try {
+//				JSONObject jObj = jArray.getJSONObject(position);
+//				nametv.setText(jObj.getString("Business_Name"));
+//				addresstv.setText(jObj.getString("Business_Address"));
+//				phonetv.setText(jObj.getString("Business_Phone"));
+//				sitetv.setText(jObj.getString("Business_Website"));
+//			} catch (JSONException e) {
+//				Log.e("GoLocalDirFragment", "error retreiving json" + e.toString());
+//				e.printStackTrace();
+//			}
+//			
+			nametv.setText(BusinessNames.get(position));
+			addresstv.setText(BusinessAddresses.get(position));
+			phonetv.setText(BusinessPhones.get(position));
+			sitetv.setText(BusinessWebsites.get(position));
 			return convertView;
 		}
 	}
