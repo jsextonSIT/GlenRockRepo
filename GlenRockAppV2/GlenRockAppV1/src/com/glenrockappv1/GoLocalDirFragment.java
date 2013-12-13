@@ -45,7 +45,8 @@ public class GoLocalDirFragment extends SherlockListFragment{
 		businessNames = ((MainActivity)getActivity()).getGoLocalBusinessNames();
 		businessPhones = ((MainActivity)getActivity()).getGoLocalPhoneNumbers();
 		businessAddresses = ((MainActivity)getActivity()).getGoLocalAddresses();
-		businessWebsites = ((MainActivity)getActivity()).getGoLocalAddresses();
+		businessWebsites = ((MainActivity)getActivity()).getGoLocalWebsites();
+
 		adapter = new GoLocalDirListAdapter(getActivity(), businessNames, businessPhones, businessAddresses, businessWebsites);
 		setListAdapter(adapter);
 	}
@@ -58,6 +59,7 @@ public class GoLocalDirFragment extends SherlockListFragment{
 		
 		public GoLocalDirListAdapter(Context context, ArrayList<String> bn, ArrayList<String> bp, ArrayList<String> ba, ArrayList<String> bw) {
 			super(context, R.layout.go_local_button_fragment_list_item, bn);
+			
 			
 			BusinessNames = bn;
 			BusinessPhones = bp;
@@ -84,6 +86,7 @@ public class GoLocalDirFragment extends SherlockListFragment{
 			addresstv.setText(BusinessAddresses.get(position));
 			phonetv.setText(BusinessPhones.get(position));
 			sitetv.setText(BusinessWebsites.get(position));
+			
 			return convertView;
 		}
 	}
