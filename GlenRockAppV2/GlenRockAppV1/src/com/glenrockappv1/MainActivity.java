@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -97,8 +99,12 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 		super.onCreate(savedInstanceState);
 		context = this;
 		debug = false;
+		Typeface type=Typeface.createFromAsset(context.getAssets(),
+		        "museo_slab_50.ttf");
 		if (debug){
 			setContentView(R.layout.welcome_layout);
+			TextView welcome = (TextView) this.findViewById(R.id.welcome_text);
+			welcome.setTypeface(type, 10);
 		} else {
 			setContentView(R.layout.activity_main);
 		}
