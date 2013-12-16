@@ -1,42 +1,39 @@
 package com.glenrockappv1;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainActivity extends SherlockFragmentActivity implements NewsListAdapter.ArticleSelectedListener, CalendarShortEventListAdapter.CalendarArticleSelectedListener, TrashShortEventListAdapter.TrashArticleSelectedListener{
+public class MainActivity extends SherlockFragmentActivity implements
+		NewsListAdapter.ArticleSelectedListener,
+		CalendarShortEventListAdapter.CalendarArticleSelectedListener,
+		TrashShortEventListAdapter.TrashArticleSelectedListener {
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
 	private final static String TAG_CALENDAR_FRAGMENT = "CALENDAR_FRAGMENT";
 	private final static String TAG_TRASH_FRAGMENT = "TRASH_FRAGMENT";
@@ -51,272 +48,308 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 	private ArrayList<String> fragTitles;
 	private ActionBarDrawerToggle navDrawerToggle;
 	private FragmentManager fragmentManager;
-	private int cFragment; //current fragment index, starting at 0, opens to 1(news)
-	
-	//Delete these later
+	private int cFragment; // current fragment index, starting at 0, opens to
+							// 1(news)
+
+	// Delete these later
 	private ArrayList<String> stockNewsTitles;
 	private ArrayList<String> stockNewsSnipps;
 	private ArrayList<Article> stockNewsArticles;
-	
-	//JSON
+
+	// JSON
 	private String jString;
 	private JSONObject jObject;
 	private JSONArray jArray;
-	
-	//News Json
+
+	// News Json
 	private String newsJString;
 	private JSONObject newsJObject;
 	private JSONArray newsJArray;
-	
-	//Calendar:
+	private NewsFragment nFragment;
+	// Calendar:
 	private ArrayList<CalendarEventArticle> calendarArticles;
-	
-	//Trash:
+
+	// Trash:
 	private ArrayList<TrashEventArticle> trashArticles;
-	
-	//Go Local
+
+	// Go Local
 	private ArrayList<String> goLocalBusinessNames;
 	private ArrayList<String> goLocalPhoneNumbers;
 	private ArrayList<String> goLocalAddresses;
 	private ArrayList<String> goLocalWebsites;
-		
-	//Contact page
+
+	// Contact page
 	private ArrayList<String> contactButtonNames;
 	private ArrayList<String> emailList;
 	private ArrayList<String> phoneList;
 	private int[] NoneOrPhoneOrEmailOrBoth;
-	
+
 	private SharedPreferences.Editor spe;
 	private SharedPreferences sp;
 	private String SP_NAME;
 	private Resources res;
-	
-	//Debug for developers
+
+	// Debug for developers
 	private boolean debug;
+	// public view for loading
+	private LinearLayout loadingLayout;
+	private ArrayList<Article> newsArticles;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
-		debug = false;
-		if (debug){
-			setContentView(R.layout.welcome_layout);
-		} else {
-			setContentView(R.layout.activity_main);
-		}
-		//RESOURCES AND SHARED PREFERENCES
+		debug = true;
+		TextView welcome;
+		setContentView(R.layout.activity_main);
+		
+		
+		//if (debug) {
+			//loadingLayout = (LinearLayout) findViewById(R.id.loading_layout);
+			//loadingLayout.setVisibility(LinearLayout.VISIBLE);
+			
+			welcome = (TextView) findViewById(R.id.welcome_text);
+			welcome.setVisibility(View.VISIBLE);
+//		} else {
+//			
+//		}
+		// RESOURCES AND SHARED PREFERENCES
 		res = getResources();
 		SP_NAME = res.getString(R.string.SP_NAME);
 		sp = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
 		spe = sp.edit();
-		
-		goLocalBusinessNames = new ArrayList<String>();
-		goLocalAddresses = new ArrayList<String>();
-		goLocalPhoneNumbers = new ArrayList<String>();
-		goLocalWebsites = new ArrayList<String>();
-		//this is hacky ^ we need to fix goLocalDirFragment because it crashes if this is null. 
-		
-		//NEWS
-		
-		GetJsonTask jTask = new GetJsonTask();
-		try {
-			newsJString = jTask.execute("http://10.0.2.2/news.php").get();
-			newsJObject = new JSONObject(newsJString);
-			newsJArray = newsJObject.getJSONArray("news");
 
-			// Log.v("MainActivity_jObject", newsJObject.toString());
-			// Log.v("MainActivity_jArray", newsJArray.toString());
-		} catch (Exception e) {
-			// Log.e("MainActivity_jTask", e.toString());
+		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (savedInstanceState == null) {
+			cFragment = 0; // set fragment as news
+		} else {
+			// get fragment number from savedinstancestate to display saved page
+			cFragment = savedInstanceState.getInt("cFragment");
 		}
-
-		stockNewsTitles = new ArrayList<String>();
-		stockNewsSnipps = new ArrayList<String>();
-		stockNewsArticles = new ArrayList<Article>();
-		try {
-			JSONObject tmp;
-			for (int i = 0; i < newsJArray.length(); i++) {
-				tmp = newsJArray.getJSONObject(i);
-				stockNewsTitles.add(tmp.getString("newsTitle").replaceAll("\\<.*?\\>", ""));
-				stockNewsSnipps.add(tmp.getString("newsDesc").replaceAll("\\<.*?\\>", ""));
-				stockNewsArticles.add(new Article(tmp.getInt("newsID"),
-						stockNewsTitles.get(i), stockNewsSnipps.get(i)));
-			}
-		} catch (JSONException e) {
-			// do nothing!!!!hahahahahha!
-		}
-		
-
-
-		
-		//CALENDAR
-		calendarArticles = new ArrayList<CalendarEventArticle>();
-		CalendarEventArticle tempcea;
-		for (int i = 0; i < 5; i++){
-			tempcea = new CalendarEventArticle(i, "title" + i, res.getString(R.string.lorum) + i, "time" + i, "contact" + i, "location" + i, "date" + i);
-			calendarArticles.add(tempcea);
-		}
-		//TRASH
-		trashArticles = new ArrayList<TrashEventArticle>();
-		TrashEventArticle temptea;
-		for (int i = 0; i < 5; i++){
-			temptea = new TrashEventArticle(i, "title" + i, res.getString(R.string.lorum) + i, "time" + i, "contact" + i, "location" + i, "date" + i);
-			trashArticles.add(temptea);
-		}
-		
-		//GOLOCAL
-		goLocalButtonNames = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.go_local_button_names)));
-		
-		//CONTACT
-		NoneOrPhoneOrEmailOrBoth = res.getIntArray(R.array.PhoneOrEmailOrBoth);
-		contactButtonNames = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact_button_names)));
-		phoneList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact_phone_list)));
-		
-		//SHERLOCK
-		fragTitles = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.navigation_array)));
+		// SHERLOCK
+		fragTitles = new ArrayList<String>(Arrays.asList(res
+				.getStringArray(R.array.navigation_array)));
 		navDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navDrawerList = (ListView) findViewById(R.id.left_drawer);
 		navDrawerList.setAdapter(new NavListAdapter(this, fragTitles));
 		navDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		getSupportActionBar().setHomeButtonEnabled(true);
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		if (savedInstanceState == null){
-			cFragment = 1; //set fragment as news
-		} else {
-			//get fragment number from savedinstancestate to display saved page
-			cFragment = savedInstanceState.getInt("cFragment");
-		}
-		navDrawerToggle = new ActionBarDrawerToggle(
-				this,                  /* host Activity */
-				navDrawerLayout,         /* DrawerLayout object */
-				R.drawable.menuicon,  /* nav drawer image to replace 'Up' caret */
-				R.string.drawer_open,  /* "open drawer" description for accessibility */
-				R.string.drawer_close  /* "close drawer" description for accessibility */
-				);
+		navDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+		navDrawerLayout, /* DrawerLayout object */
+		R.drawable.menuicon, /* nav drawer image to replace 'Up' caret */
+		R.string.drawer_open, /* "open drawer" description for accessibility */
+		R.string.drawer_close /* "close drawer" description for accessibility */
+		);
 		navDrawerLayout.setDrawerListener(navDrawerToggle);
-		
+		//welcome.setVisibility(TextView.INVISIBLE);
 		
 	}
-	public ArrayList<String> getStockNewsSnipps(){
+
+	public ArrayList<String> getStockNewsSnipps() {
 		return stockNewsSnipps;
 	}
-	public ArrayList<String> getStockNewsTitles(){
+
+	public ArrayList<String> getStockNewsTitles() {
 		return stockNewsTitles;
 	}
+
 	public ArrayList<Article> getStockNewsArticles() {
 		return stockNewsArticles;
 	}
+
 	public ArrayList<CalendarEventArticle> getCalendarEventArticles() {
 		return calendarArticles;
 	}
+
 	public ArrayList<TrashEventArticle> getTrashEventArticles() {
 		return trashArticles;
 	}
-	public ArrayList<String> getEmailList(){
+
+	public ArrayList<String> getEmailList() {
 		return emailList;
 	}
-	public ArrayList<String> getPhoneList(){
+
+	public ArrayList<String> getPhoneList() {
 		return phoneList;
 	}
-	public int getNoneOrPhoneOrEmailOrBoth(int i){
+
+	public int getNoneOrPhoneOrEmailOrBoth(int i) {
 		return NoneOrPhoneOrEmailOrBoth[i];
 	}
-	
-	public JSONArray getGoLocalJSON(){
+
+	public JSONArray getGoLocalJSON() {
 		return jArray;
 	}
-	
-	public ArrayList<String> getContactButtonNames(){
+
+	public ArrayList<String> getContactButtonNames() {
 		return contactButtonNames;
 	}
-	public ArrayList<String> getGoLocalButtonNames(){
+
+	public ArrayList<String> getGoLocalButtonNames() {
 		return goLocalButtonNames;
 	}
-	public ArrayList<String> getGoLocalBusinessNames(){
+
+	public ArrayList<String> getGoLocalBusinessNames() {
 		return goLocalBusinessNames;
 	}
-	public ArrayList<String> getGoLocalPhoneNumbers(){
+
+	public ArrayList<String> getGoLocalPhoneNumbers() {
 		return goLocalPhoneNumbers;
 	}
-	public ArrayList<String> getGoLocalAddresses(){
+
+	public ArrayList<String> getGoLocalAddresses() {
 		return goLocalAddresses;
 	}
-	public ArrayList<String> getGoLocalWebsites(){
+
+	public ArrayList<String> getGoLocalWebsites() {
 		return goLocalWebsites;
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		//getSupportMenuInflater().inflate(R.menu.home, menu);
+		// getSupportMenuInflater().inflate(R.menu.home, menu);
 		return false;
 	}
+
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
+		if (!isOnline()){
+			TextView loadingText = (TextView) findViewById(R.id.loading_text);
+			loadingText.setText("Please Connect to the Internet and restart");
+			return;
+		}
+//		while (!isOnline()){
+//		Toast.makeText(getApplicationContext(), "Network Connection Needed",
+//				   Toast.LENGTH_LONG).show();
+//		TextView loadingText = (TextView) findViewById(R.id.loading_text);
+//		loadingText.setText("Please Connect to the Internet");
+//			try{
+//				Thread.sleep(1000);
+//			}catch (InterruptedException e) {
+//	            e.printStackTrace();
+//	        }
+//		}
+		goLocalBusinessNames = new ArrayList<String>();
+		goLocalAddresses = new ArrayList<String>();
+		goLocalPhoneNumbers = new ArrayList<String>();
+		goLocalWebsites = new ArrayList<String>();
+		// this is hacky ^ we need to fix goLocalDirFragment because it crashes
+		// if this is null.
+
+
+		// CALENDAR
+		calendarArticles = new ArrayList<CalendarEventArticle>();
+		CalendarEventArticle tempcea;
+		for (int i = 0; i < 5; i++) {
+			tempcea = new CalendarEventArticle(i, "title" + i,
+					res.getString(R.string.lorum) + i, "time" + i, "contact"
+							+ i, "location" + i, "date" + i);
+			calendarArticles.add(tempcea);
+		}
+		// TRASH
+		trashArticles = new ArrayList<TrashEventArticle>();
+		TrashEventArticle temptea;
+		for (int i = 0; i < 5; i++) {
+			temptea = new TrashEventArticle(i, "title" + i,
+					res.getString(R.string.lorum) + i, "time" + i, "contact"
+							+ i, "location" + i, "date" + i);
+			trashArticles.add(temptea);
+		}
+
+		// GOLOCAL
+		goLocalButtonNames = new ArrayList<String>(Arrays.asList(res
+				.getStringArray(R.array.go_local_button_names)));
+
+		// CONTACT
+		NoneOrPhoneOrEmailOrBoth = res.getIntArray(R.array.PhoneOrEmailOrBoth);
+		contactButtonNames = new ArrayList<String>(Arrays.asList(res
+				.getStringArray(R.array.contact_button_names)));
+		phoneList = new ArrayList<String>(Arrays.asList(res
+				.getStringArray(R.array.contact_phone_list)));
+		loadingLayout = (LinearLayout) findViewById(R.id.loading_layout);
+		loadingLayout.setVisibility(TextView.GONE);
+		FrameLayout container = (FrameLayout) findViewById(R.id.fragment_container);
+		ListView drawer = (ListView) findViewById(R.id.left_drawer);
+		container.setVisibility(View.VISIBLE);
+		drawer.setVisibility(View.VISIBLE);
 		navPage(cFragment);
 	}
-	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-		switch (item.getItemId()) {
-        case android.R.id.home:
-            if (navDrawerLayout.isDrawerOpen(navDrawerList)) {
-                navDrawerLayout.closeDrawer(navDrawerList);
-            } else {
-                navDrawerLayout.openDrawer(navDrawerList);
-            }
-            return true;
-		}
-        // Handle your other action bar items...
 
-        return super.onOptionsItemSelected(item);
-    }
-	
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Pass the event to ActionBarDrawerToggle, if it returns
+		// true, then it has handled the app icon touch event
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			if (navDrawerLayout.isDrawerOpen(navDrawerList)) {
+				navDrawerLayout.closeDrawer(navDrawerList);
+			} else {
+				navDrawerLayout.openDrawer(navDrawerList);
+			}
+			return true;
+		}
+		// Handle your other action bar items...
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 			navPage(position);
 		}
 	}
+
 	private void navPage(int position) {
-		if (true){
+		if (true) {
 			navDrawerList.setItemChecked(position, true);
 			fragmentManager = getSupportFragmentManager();
-			//fragmentManager.addOnBackStackChangedListener(getListener());
-			FragmentTransaction transaction = fragmentManager.beginTransaction();
-			switch(position) { 
-//			case 0:
-//				//Emergency
-//				break;
+			// fragmentManager.addOnBackStackChangedListener(getListener());
+			FragmentTransaction transaction = fragmentManager
+					.beginTransaction();
+			switch (position) {
+			// case 0:
+			// //Emergency
+			// break;
 			case 0:
-				//News
-				NewsFragment hfragment = new NewsFragment();
-				transaction.replace(R.id.fragment_container, hfragment, TAG_NEWS_FRAGMENT).addToBackStack("n");
+				// News
+				if (nFragment == null) {
+					nFragment = new NewsFragment();
+				}
+				transaction.replace(R.id.fragment_container, nFragment,
+						TAG_NEWS_FRAGMENT).addToBackStack("n");
 				transaction.commit();
 				break;
 			case 1:
-				//Calendar
+				// Calendar
 				CalendarFragment calfragment = new CalendarFragment();
-				transaction.replace(R.id.fragment_container, calfragment, TAG_CALENDAR_FRAGMENT).addToBackStack("c");
+				transaction.replace(R.id.fragment_container, calfragment,
+						TAG_CALENDAR_FRAGMENT).addToBackStack("c");
 				transaction.commit();
 				break;
 			case 2:
-				//GoLocal
+				// GoLocal
 				GoLocalFragment glfragment = new GoLocalFragment();
-				transaction.replace(R.id.fragment_container, glfragment, TAG_GO_LOCAL_BUTTONS_FRAGMENT).addToBackStack("gl");
+				transaction.replace(R.id.fragment_container, glfragment,
+						TAG_GO_LOCAL_BUTTONS_FRAGMENT).addToBackStack("gl");
 				transaction.commit();
 				break;
 			case 3:
-				//Trash
+				// Trash
 				TrashFragment trashfragment = new TrashFragment();
-				transaction.replace(R.id.fragment_container,  trashfragment, TAG_TRASH_FRAGMENT).addToBackStack("t");
+				transaction.replace(R.id.fragment_container, trashfragment,
+						TAG_TRASH_FRAGMENT).addToBackStack("t");
 				transaction.commit();
 				break;
 			case 4:
-				//Contact
+				// Contact
 				ContactFragment contact_fragment = new ContactFragment();
-				transaction.replace(R.id.fragment_container, contact_fragment, TAG_CONTACT_BUTTONS_FRAGMENT).addToBackStack("c");
+				transaction.replace(R.id.fragment_container, contact_fragment,
+						TAG_CONTACT_BUTTONS_FRAGMENT).addToBackStack("c");
 				transaction.commit();
 				break;
 			}
@@ -325,7 +358,7 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 		}
 		navDrawerLayout.closeDrawer(navDrawerList);
 	}
-	
+
 	public void goLocalButtonFragmentNavigator(int position) {
 		fragmentManager = getSupportFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -335,8 +368,8 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 		go_local_dir_fragment.setArguments(b);
 		String phpurl;
 		String json_key = "";
-		
-		switch(position){
+
+		switch (position) {
 		case 0:
 			json_key = "entertainment";
 			break;
@@ -367,50 +400,55 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 		case 9:
 			json_key = "proServices";
 			break;
-		
+
 		}
-		//clear all arraylists
+		// clear all arraylists
 		goLocalBusinessNames.clear();
 		goLocalAddresses.clear();
 		goLocalPhoneNumbers.clear();
 		goLocalWebsites.clear();
-		
-		//GETTIN DAT JSON
+
+		// GETTIN DAT JSON
 		GetJsonTask jTask = new GetJsonTask();
 		try {
-			jString = jTask.execute("http://10.0.2.2/" + json_key + ".php").get();
+			jString = jTask.execute("http://10.0.2.2/" + json_key + ".php")
+					.get();
 			jObject = new JSONObject(jString);
 			jArray = jObject.getJSONArray(json_key);
 
 			Log.v("MainActivity_jObject", jObject.toString());
 			Log.v("MainActivity_jArray", jArray.toString());
-			
+
 			Log.v("MainActivity_jArray", "length = " + jArray.length());
-			for (int i=0; i<jArray.length();i++)
-			{
-				goLocalBusinessNames.add(jArray.getJSONObject(i).getString("Business_Name"));
-				goLocalAddresses.add(jArray.getJSONObject(i).getString("Business_Address"));
-				goLocalPhoneNumbers.add(jArray.getJSONObject(i).getString("Business_Phone"));
-				goLocalWebsites.add(jArray.getJSONObject(i).getString("Business_Website"));
+			for (int i = 0; i < jArray.length(); i++) {
+				goLocalBusinessNames.add(jArray.getJSONObject(i).getString(
+						"Business_Name"));
+				goLocalAddresses.add(jArray.getJSONObject(i).getString(
+						"Business_Address"));
+				goLocalPhoneNumbers.add(jArray.getJSONObject(i).getString(
+						"Business_Phone"));
+				goLocalWebsites.add(jArray.getJSONObject(i).getString(
+						"Business_Website"));
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			Log.e("MainActivity_jTask", e.toString());
-			if (jArray == null)
-			{
+			if (jArray == null) {
 				Log.v("MainActivity_jTask", "jArray is null");
 			} else if (jObject == null) {
 				Log.v("MainActivity_jTask", "jObject is null");
 			} else if (jString == null) {
-				Log.v("MainActivity_jTask", "jString is null"); 
-			} else if (goLocalBusinessNames == null || goLocalAddresses == null || goLocalPhoneNumbers == null || goLocalWebsites == null){
+				Log.v("MainActivity_jTask", "jString is null");
+			} else if (goLocalBusinessNames == null || goLocalAddresses == null
+					|| goLocalPhoneNumbers == null || goLocalWebsites == null) {
 				Log.v("MainActivity_jTask", "arraylist is null");
 			}
 		}
-		
-		transaction.replace(R.id.fragment_container, go_local_dir_fragment, TAG_GO_LOCAL_DIRECTORY_FRAGMENT).addToBackStack("goLocalDir");
+
+		transaction.replace(R.id.fragment_container, go_local_dir_fragment,
+				TAG_GO_LOCAL_DIRECTORY_FRAGMENT).addToBackStack("goLocalDir");
 		transaction.commit();
 	}
-	
+
 	public void contactButtonFragmentNavigator(int position) {
 		fragmentManager = getSupportFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -418,48 +456,59 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 		Bundle b = new Bundle();
 		b.putInt("position", position);
 		contact_form_fragment.setArguments(b);
-		switch(position){
+		switch (position) {
 		case 0:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact0_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact0_emails)));
 			break;
 		case 1:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact1_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact1_emails)));
 			break;
 		case 2:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact2_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact2_emails)));
 			break;
 		case 3:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact3_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact3_emails)));
 			break;
 		case 4:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact4_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact4_emails)));
 			break;
 		case 5:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact5_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact5_emails)));
 			break;
 		case 6:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact6_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact6_emails)));
 			break;
 		case 7:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact7_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact7_emails)));
 			break;
 		case 8:
-			emailList = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.contact8_emails)));
+			emailList = new ArrayList<String>(Arrays.asList(res
+					.getStringArray(R.array.contact8_emails)));
 			break;
 		}
-		transaction.replace(R.id.fragment_container, contact_form_fragment, TAG_CONTACT_FORM_FRAGMENT).addToBackStack("contactform");
+		transaction.replace(R.id.fragment_container, contact_form_fragment,
+				TAG_CONTACT_FORM_FRAGMENT).addToBackStack("contactform");
 		transaction.commit();
 	}
-	
-	public void calendarClickFragmentNavigator(int position){
-		
+
+	public void calendarClickFragmentNavigator(int position) {
+
 	}
+
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putInt("cFragment", cFragment);
 	}
-	
+
 	@Override
 	public void onArticleSelected(Article item) {
 		Log.i("article title", item.title);
@@ -471,37 +520,44 @@ public class MainActivity extends SherlockFragmentActivity implements NewsListAd
 		ft.commit();
 
 	}
+
 	@Override
 	public void onArticleSelected(CalendarEventArticle item) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		SherlockFragment fragment = CalendarEventArticleFragment.newInstance(item);
+		SherlockFragment fragment = CalendarEventArticleFragment
+				.newInstance(item);
 		ft.replace(R.id.fragment_container, fragment);
 		ft.addToBackStack(null);
 		ft.commit();
-		
+
 	}
+
 	public void onArticleSelected(TrashEventArticle item) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		SherlockFragment fragment = TrashEventArticleFragment.newInstance(item);
 		ft.replace(R.id.fragment_container, fragment);
 		ft.addToBackStack(null);
 		ft.commit();
-		
+
+	}
+	
+	public boolean isOnline(){
+		ConnectivityManager CManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo NInfo = CManager.getActiveNetworkInfo();
+		if (NInfo != null && NInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
 	}
 	/*
-	private OnBackStackChangedListener getListener(){
-        OnBackStackChangedListener result = new OnBackStackChangedListener(){
-            public void onBackStackChanged(){                   
-                FragmentManager manager = getSupportFragmentManager();
-
-                if (manager != null){
-                    CalendarFragment currFrag = (CalendarFragment)manager.findFragmentById(R.id.calendar_frag_rl);
-
-                    currFrag.onResume();
-                }                   
-            }
-        };
-        return result;
-    }
-    */
+	 * private OnBackStackChangedListener getListener(){
+	 * OnBackStackChangedListener result = new OnBackStackChangedListener(){
+	 * public void onBackStackChanged(){ FragmentManager manager =
+	 * getSupportFragmentManager();
+	 * 
+	 * if (manager != null){ CalendarFragment currFrag =
+	 * (CalendarFragment)manager.findFragmentById(R.id.calendar_frag_rl);
+	 * 
+	 * currFrag.onResume(); } } }; return result; }
+	 */
 }

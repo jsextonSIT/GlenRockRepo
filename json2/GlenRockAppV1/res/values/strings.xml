@@ -2,7 +2,10 @@
 <resources>
 
     <string name="app_name">Glen Rock</string>
+    <string name="welcome_intro">WELCOME</string>
+    <string name="welcome_loading">Loading&#8230;</string>
     <string name="action_settings">Settings</string>
+    <string name="refresh_news">Refresh News</string>
     <string name="hello_world">Hello world!</string>
     <string name="lorum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris dictum metus sed velit commodo posuere. Ut sed purus sit amet purus pulvinar imperdiet ut quis arcu. Suspendisse adipiscing lacinia urna, sed accumsan turpis iaculis vel. Mauris dictum, tortor at porta ullamcorper, nisl diam tincidunt enim, vitae dapibus odio eros quis orci. Praesent egestas massa euismod metus molestie lacinia congue sed purus. Vivamus justo eros, mollis sed orci</string>
 	<string-array name="navigation_array">

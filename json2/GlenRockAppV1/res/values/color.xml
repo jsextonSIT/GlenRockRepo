@@ -1,8 +1,8 @@
 <resources>
-
+	<color name="gl_blue">#084d9a</color>
     <color name="bg_gray">#D8D8D8</color>
     <color name="blue">#0066FF</color>
     <color name="grayish_gray">#C9C9C9</color>
     <color name="black">#000000</color>
-
+	<color name="white">#FFFFFF</color>
 </resources>
