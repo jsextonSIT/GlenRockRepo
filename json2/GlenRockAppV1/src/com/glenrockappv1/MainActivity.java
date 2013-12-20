@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -94,13 +95,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 	// public view for loading
 	private LinearLayout loadingLayout;
 	private ArrayList<Article> newsArticles;
+	private FrameLayout container;
+	private ListView drawer;
+	private TextView welcome;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
 		debug = true;
-		TextView welcome;
+		
 		setContentView(R.layout.activity_main);
 		
 		
@@ -212,6 +216,9 @@ public class MainActivity extends SherlockFragmentActivity implements
 		return false;
 	}
 
+	public void getData(){
+		
+	}
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -220,6 +227,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 			loadingText.setText("Please Connect to the Internet and restart");
 			return;
 		}
+
+		//welcome.setVisibility(View.GONE);
 //		while (!isOnline()){
 //		Toast.makeText(getApplicationContext(), "Network Connection Needed",
 //				   Toast.LENGTH_LONG).show();
@@ -268,13 +277,30 @@ public class MainActivity extends SherlockFragmentActivity implements
 				.getStringArray(R.array.contact_button_names)));
 		phoneList = new ArrayList<String>(Arrays.asList(res
 				.getStringArray(R.array.contact_phone_list)));
+		
+		//change layout to transition from loading to fragments
 		loadingLayout = (LinearLayout) findViewById(R.id.loading_layout);
+		container = (FrameLayout) findViewById(R.id.fragment_container);
+		drawer = (ListView) findViewById(R.id.left_drawer);
+	}
+	@Override
+	public void onResume(){
+		super.onResume();
+		//welcome.setVisibility(View.INVISIBLE);
+		//navPage(cFragment);
+		
+	}
+	
+	public void hideLoading(){
 		loadingLayout.setVisibility(TextView.GONE);
-		FrameLayout container = (FrameLayout) findViewById(R.id.fragment_container);
-		ListView drawer = (ListView) findViewById(R.id.left_drawer);
 		container.setVisibility(View.VISIBLE);
 		drawer.setVisibility(View.VISIBLE);
-		navPage(cFragment);
+	}
+	public void showLoading(){
+		loadingLayout.setVisibility(TextView.VISIBLE);
+		container.setVisibility(View.GONE);
+		drawer.setVisibility(View.GONE);
+		welcome.setVisibility(View.INVISIBLE);
 	}
 
 	@Override

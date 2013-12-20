@@ -51,6 +51,7 @@ public class GetJsonTask extends AsyncTask<String, Void, String> {
 			Log.v("GetJsonTask", "expceiton thrown1!!!!");
 			Log.v("GetJsonTask", e.toString());
 			e.getStackTrace();
+			return null;
 		}
 		finally {
 			try{if(inputStream != null)inputStream.close();}catch(Exception squish){}

@@ -5,13 +5,14 @@
     android:layout_gravity="center_horizontal"
     android:background="#E6E7E8"
     android:gravity="top"
-    android:orientation="vertical">    
+    android:orientation="vertical" >
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:visibility="gone"/>
-    
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="240dp"
@@ -20,46 +21,48 @@
         android:background="#111"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" 
+        android:dividerHeight="0dp"
         android:scrollingCache="false"
-        android:visibility="gone"/>
-    <LinearLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:visibility="visible"
-    android:id="@+id/loading_layout"
-    android:background="@color/white">
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/welcome_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/welcome_intro"
-        android:textColor="@color/gl_blue"
-        android:textSize="55sp"
-        android:padding="20dp"
-        android:visibility="invisible">
-    </TextView>
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="visible" >
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:src="@drawable/gl_icon"
-        android:visibility="visible" />
-    <TextView
-        android:id="@+id/loading_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gl_blue"
-        android:text="@string/welcome_loading"
-        android:textSize="20sp"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        android:textStyle="bold" >
-    </TextView>
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="20dp"
+            android:text="@string/welcome_intro"
+            android:textColor="@color/gl_blue"
+            android:textSize="55sp"
+            android:visibility="invisible" >
+        </TextView>
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@drawable/gl_icon"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/welcome_loading"
+            android:textColor="@color/gl_blue"
+            android:textSize="20sp"
+            android:textStyle="bold" >
+        </TextView>
+    </LinearLayout>
+
 </android.support.v4.widget.DrawerLayout>
