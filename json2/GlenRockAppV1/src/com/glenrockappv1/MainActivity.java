@@ -52,11 +52,6 @@ public class MainActivity extends SherlockFragmentActivity implements
 	private int cFragment; // current fragment index, starting at 0, opens to
 							// 1(news)
 
-	// Delete these later
-	private ArrayList<String> stockNewsTitles;
-	private ArrayList<String> stockNewsSnipps;
-	private ArrayList<Article> stockNewsArticles;
-
 	// JSON
 	private String jString;
 	private JSONObject jObject;
@@ -149,16 +144,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		
 	}
 
-	public ArrayList<String> getStockNewsSnipps() {
-		return stockNewsSnipps;
-	}
-
-	public ArrayList<String> getStockNewsTitles() {
-		return stockNewsTitles;
-	}
-
-	public ArrayList<Article> getStockNewsArticles() {
-		return stockNewsArticles;
+	public ArrayList<Article> getNewsArticles() {
+		return newsArticles;
 	}
 
 	public ArrayList<CalendarEventArticle> getCalendarEventArticles() {
@@ -225,21 +212,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		if (!isOnline()){
 			TextView loadingText = (TextView) findViewById(R.id.loading_text);
 			loadingText.setText("Please Connect to the Internet and restart");
+			Toast.makeText(getApplicationContext(), "Network Connection Needed",
+					   Toast.LENGTH_LONG).show();
 			return;
 		}
-
-		//welcome.setVisibility(View.GONE);
-//		while (!isOnline()){
-//		Toast.makeText(getApplicationContext(), "Network Connection Needed",
-//				   Toast.LENGTH_LONG).show();
-//		TextView loadingText = (TextView) findViewById(R.id.loading_text);
-//		loadingText.setText("Please Connect to the Internet");
-//			try{
-//				Thread.sleep(1000);
-//			}catch (InterruptedException e) {
-//	            e.printStackTrace();
-//	        }
-//		}
 		goLocalBusinessNames = new ArrayList<String>();
 		goLocalAddresses = new ArrayList<String>();
 		goLocalPhoneNumbers = new ArrayList<String>();
@@ -282,15 +258,12 @@ public class MainActivity extends SherlockFragmentActivity implements
 		loadingLayout = (LinearLayout) findViewById(R.id.loading_layout);
 		container = (FrameLayout) findViewById(R.id.fragment_container);
 		drawer = (ListView) findViewById(R.id.left_drawer);
-	}
-	@Override
-	public void onResume(){
-		super.onResume();
-		//welcome.setVisibility(View.INVISIBLE);
-		//navPage(cFragment);
 		
+		//elcome.setVisibility(View.INVISIBLE);
+		if (refreshNewsArticles()){
+		navPage(cFragment);
+		}
 	}
-	
 	public void hideLoading(){
 		loadingLayout.setVisibility(TextView.GONE);
 		container.setVisibility(View.VISIBLE);
@@ -300,7 +273,62 @@ public class MainActivity extends SherlockFragmentActivity implements
 		loadingLayout.setVisibility(TextView.VISIBLE);
 		container.setVisibility(View.GONE);
 		drawer.setVisibility(View.GONE);
-		welcome.setVisibility(View.INVISIBLE);
+		//welcome.setVisibility(View.INVISIBLE);
+	}
+	/* get the most up to date news from the glen rock website
+	* input: void
+	* output: boolean (true if successfully retrieved articles from server, false on fail)
+	*/
+	public boolean refreshNewsArticles() {
+		// NEWS
+		newsArticles = new ArrayList<Article>();
+		GetJsonTask newsJTask = new GetJsonTask();
+		showLoading();
+		try {
+			// this line ensures that the query will execute before moving
+			// forward, the variable assignment is responsible
+			newsJString = newsJTask.execute("http://10.0.2.2/news.php").get();
+			if (newsJString != null) {
+				// not null so connection was made, hide loading screen
+				newsJObject = new JSONObject(newsJString);
+				newsJArray = newsJObject.getJSONArray("news");
+
+				// Log.v("MainActivity_newsJObject", newsJObject.toString());
+				// Log.v("MainActivity_newsJArray", newsJArray.toString());
+				Article temp;
+				for (int i = 0; i < newsJArray.length(); i++) {
+					temp = new Article(newsJArray.getJSONObject(i).getString(
+							"newsID"),
+							newsJArray.getJSONObject(i).getString("newsTitle")
+									.replaceAll("\\<.*?\\>", ""), newsJArray
+									.getJSONObject(i).getString("newsDesc")
+									.replaceAll("\\<.*?\\>", ""), newsJArray
+									.getJSONObject(i).getString("DateAdded"));
+					// Log.i("article title", temp.title);
+					newsArticles.add(temp);
+				}
+			} else {
+				// is null so connection not made return false
+				Log.i("refreshNews", "Could not reach website");
+				TextView loadingText = (TextView) findViewById(R.id.loading_text);
+				loadingText.setText("Cannot reach server");
+				return false;
+			}
+		} catch (Exception e) {
+			Log.e("MainActivity_jTask", e.toString());
+			if (newsJArray == null) {
+				Log.v("MainActivity_jTask", "jArray is null");
+			} else if (newsJObject == null) {
+				Log.v("MainActivity_jTask", "jObject is null");
+			} else if (newsJString == null) {
+				Log.v("MainActivity_jTask", "jString is null");
+			} else if (newsArticles == null) {
+				Log.v("MainActivity_jTask", "arraylist is null");
+			}
+			return false;
+		}
+		hideLoading();
+		return true;
 	}
 
 	@Override

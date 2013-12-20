@@ -16,6 +16,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
@@ -30,40 +32,36 @@ public class GetJsonTask extends AsyncTask<String, Void, String> {
 		HttpPost httppost = new HttpPost(urls[0]);
 		InputStream inputStream = null;
 		String result = null;
+		HttpParams httpParameters = new BasicHttpParams();
+		int timeoutConnection = 3000;
+		int timeoutSocket = 5000;
+		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+		HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+		httpclient.setParams(httpParameters);
 		try {
-			HttpResponse response = httpclient.execute(httppost);           
+			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
-
 			inputStream = entity.getContent();
 			// json is UTF-8 by default
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
 			StringBuilder sb = new StringBuilder();
-
 			String line = null;
 			while ((line = reader.readLine()) != null)
 			{
 				sb.append(line + "\n");
 			}
+			Log.i("4", "test");
 			result = sb.toString();
 			//Log.v("GetJsonTask", result);
 		} catch (Exception e) { 
 			// Oops
-			Log.v("GetJsonTask", "expceiton thrown1!!!!");
+			Log.v("GetJsonTask", "expception thrown!!!!");
 			Log.v("GetJsonTask", e.toString());
 			e.getStackTrace();
-			return null;
 		}
 		finally {
 			try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
 		}
-		//		//CREATING JSON OBJECT
-		//		try {
-		//			JSONObject jObject = new JSONObject(result);
-		//			Log.v("GetJsonTask_jObject", jObject.toString());
-		//		} catch (Exception e) {
-		//			// TODO Auto-generated catch block
-		//			Log.v("GetJsonTask", "exception making json object: " + e.toString());
-		//		}
 		return result;
 	}
 

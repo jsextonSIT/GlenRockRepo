@@ -9,16 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
+//fragment for displaying the navigation drawer rows
 public class NavListAdapter extends ArrayAdapter<String> {
 	ArrayList<String> titles;
 	Context context;
+	/* constructor for navlistadapter
+	 * input:context and array of titles for the rows
+	 */
 	public NavListAdapter(Context context, ArrayList<String> titles) {
 		super(context, R.layout.drawer_list_item, titles);
 		this.titles = titles;
 		this.context = context;
 	}
-
+	/* Creates each individual view for the rows inside the navigation drawer and sets the title
+	 * input: index(position) of drawer item, view, viewgroup,
+	 * output: view for the row
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
