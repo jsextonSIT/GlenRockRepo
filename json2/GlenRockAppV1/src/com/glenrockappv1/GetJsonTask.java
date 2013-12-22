@@ -23,7 +23,10 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
+/*
+ * Makes an HTTP request to Glen Rock's server on a new thread
+ * Upon success, returns a JSON String containing data from the database which we use all over the app.
+ */
 public class GetJsonTask extends AsyncTask<String, Void, String> {
 	@Override
 	protected String doInBackground(String... urls){
