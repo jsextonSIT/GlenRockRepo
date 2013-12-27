@@ -1,3 +1,8 @@
+/****************
+ * This class is for showing each date in the grid. It has code for showing a single date in the grid, and
+ * the code is applied to every date in the grid.
+ */
+
 package com.glenrockappv1;
 
 import java.text.DateFormat;
@@ -42,7 +47,7 @@ public class TrashAdapter extends ArrayAdapter<String> {
 	private ArrayList<String> items;
 	public static List<String> dayString;
 	private View previousView;
-
+// constructor
 	public TrashAdapter(Context c, GregorianCalendar monthCalendar, ArrayList<String> days) {
 		super(c, R.layout.calendar_item, days);
 		Log.i("here here", "here");
@@ -74,6 +79,10 @@ public class TrashAdapter extends ArrayAdapter<String> {
 		}
 		this.items = items;
 	}
+	
+	/***
+	 * The following two methods are necessary for the Android system to know that there are items to be displayed
+	 */
 	@Override
 	public int getCount() {
 		Log.i("hello", ""+dayString.size());
@@ -88,6 +97,11 @@ public class TrashAdapter extends ArrayAdapter<String> {
 
 	// create a new view for each item referenced by the Adapter
 	@Override
+	/***************
+	 * Precondition: Given a position in the grid
+	 * Postcondition: Displays the correct date at that position, with the appropriate color if it is in the current 
+	 * month, or in an adjacent month
+	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		TextView dayView;
@@ -97,15 +111,13 @@ public class TrashAdapter extends ArrayAdapter<String> {
 			LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.calendar_item, parent, false);
 			Log.i("convertviewwwwwwwwwwww"," ----------");
-		}
+		} // this is for efficiency
 		dayView = (TextView) v.findViewById(R.id.date);
-		String s = "Hi";
-		dayView.setText(s);
-		// separates daystring into parts.
+				
+		String[] separatedTime = dayString.get(position).split("-"); 	// separates daystring into parts.
 		
-		String[] separatedTime = dayString.get(position).split("-");
-		// taking last part of date. ie; 2 from 2012-12-02
-		String gridvalue = separatedTime[2].replaceFirst("^0*", "");
+		String gridvalue = separatedTime[2].replaceFirst("^0*", "");// taking last part of date. ie; 2 from 2012-12-02
+		
 		// checking whether the day is in current month or not.
 		if ((Integer.parseInt(gridvalue) > 1) && (position < firstDay)) {
 			// setting offdays to white color.
@@ -152,7 +164,9 @@ public class TrashAdapter extends ArrayAdapter<String> {
 		return v;
 
 	}
-
+/**
+ * Postconditon: sets the correct layouts for the given item
+ */
 	public View setSelected(View view) {
 		if (previousView != null) {
 			previousView.setBackgroundResource(R.drawable.list_item_background);
@@ -162,7 +176,10 @@ public class TrashAdapter extends ArrayAdapter<String> {
 		view.setBackgroundResource(R.drawable.calendar_cel_selectl);
 		return view;
 	}
-
+/****
+ * Postcondition: refreshes the days of the month to be the correct day matching each date
+ * 
+ * */
 	public List<String> refreshDays() {
 		// clear items
 		items.clear();
@@ -201,6 +218,9 @@ public class TrashAdapter extends ArrayAdapter<String> {
 		return dayString;
 	}
 
+	/****
+	 * Postcondition: returns the last date of the current month (so for Feb, returns 28)
+	 */
 	private int getMaxP() {
 		int maxP;
 		if (month.get(GregorianCalendar.MONTH) == month
@@ -216,9 +236,12 @@ public class TrashAdapter extends ArrayAdapter<String> {
 		return maxP;
 	}
 
+	/****
+	 * Necessary method for android to get id of item at a current position
+	 */
 	@Override
 	public long getItemId(int position) {
-		Log.i("hrrrrrrrrrrrrrr", "" + position);
+		//Log.i("hrrrrrrrrrrrrrr", "" + position);
 		return position;
 	}
 

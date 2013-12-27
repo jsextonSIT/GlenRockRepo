@@ -1,3 +1,7 @@
+/****************
+ * This class is for showing each date in the grid. It has code for showing a single date in the grid, and
+ * the code is applied to every date in the grid.
+ */
 package com.glenrockappv1;
 
 import java.text.DateFormat;
@@ -74,6 +78,10 @@ public class CalendarAdapter extends ArrayAdapter<String> {
 		}
 		this.items = items;
 	}
+	
+	/***
+	 * The following two methods are necessary for the Android system to know that there are items to be displayed
+	 */
 	@Override
 	public int getCount() {
 		Log.i("hello", ""+dayString.size());
@@ -88,6 +96,11 @@ public class CalendarAdapter extends ArrayAdapter<String> {
 
 	// create a new view for each item referenced by the Adapter
 	@Override
+	/***************
+	 * Precondition: Given a position in the grid
+	 * Postcondition: Displays the correct date at that position, with the appropriate color if it is in the current 
+	 * month, or in an adjacent month
+	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		TextView dayView;
@@ -152,7 +165,9 @@ public class CalendarAdapter extends ArrayAdapter<String> {
 		return v;
 
 	}
-
+	/**
+	 * Postconditon: sets the correct layouts for the given item
+	 */
 	public View setSelected(View view) {
 		if (previousView != null) {
 			previousView.setBackgroundResource(R.drawable.list_item_background);
@@ -162,7 +177,10 @@ public class CalendarAdapter extends ArrayAdapter<String> {
 		view.setBackgroundResource(R.drawable.calendar_cel_selectl);
 		return view;
 	}
-
+	/****
+	 * Postcondition: refreshes the days of the month to be the correct day matching each date
+	 * 
+	 * */
 	public List<String> refreshDays() {
 		// clear items
 		items.clear();
@@ -200,7 +218,9 @@ public class CalendarAdapter extends ArrayAdapter<String> {
 		
 		return dayString;
 	}
-
+	/****
+	 * Postcondition: returns the last date of the current month (so for Feb, returns 28)
+	 */
 	private int getMaxP() {
 		int maxP;
 		if (month.get(GregorianCalendar.MONTH) == month
@@ -217,6 +237,9 @@ public class CalendarAdapter extends ArrayAdapter<String> {
 	}
 
 	@Override
+	/****
+	 * Necessary method for android to get id of item at a current position
+	 */
 	public long getItemId(int position) {
 		Log.i("hrrrrrrrrrrrrrr", "" + position);
 		return position;

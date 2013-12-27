@@ -1,3 +1,7 @@
+/***
+ * This class is for storing information about each calendar event.
+ */
+
 package com.glenrockappv1;
 
 import android.os.Parcel;
@@ -35,6 +39,9 @@ public class CalendarEventArticle implements Parcelable{
         return 0;
     }
 	@Override
+	
+	//this method is for packaging the class into a compressed state so the android system can send it as an argument
+	
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(artId);
 		dest.writeString(title);

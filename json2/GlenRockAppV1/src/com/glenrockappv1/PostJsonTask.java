@@ -1,3 +1,8 @@
+/**********
+ * This class is for calling the php script on the server WITH arguments. The "GetJsonTask" does not allow arguments, 
+ * but arguments are necessary in the Calendar and Trash section, to get only events for a specific date.
+ * Runs asynchronously from the code it is called in so that the app does not get shut down from inactivity by the Android system.
+ */
 package com.glenrockappv1;
 
 import java.io.BufferedReader;

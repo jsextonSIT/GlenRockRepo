@@ -1,3 +1,6 @@
+/******
+ * This class is the form that the user fills out to send an email. 
+ */
 package com.glenrockappv1;
 
 import java.util.ArrayList;
@@ -27,7 +30,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class ContactFormFragment extends SherlockFragment{
 	private ArrayList<String> emailList;
 	private ArrayList<String> nameList;
-	private boolean emails;
+	//private boolean emails;
 	private Context context;
 	private int contactPosition;
 	private SharedPreferences sp;
@@ -39,7 +42,10 @@ public class ContactFormFragment extends SherlockFragment{
 	public ContactFormFragment(){
 		super();
 	}
-	
+	/******
+	 * Precondition: Given a bundle of arguments containing the position of which button the user clicked
+	 * Postcondition: Stores the position within the class.
+	 */
 	public void setArguments(Bundle b){
 		super.setArguments(b);
 		contactPosition = b.getInt("position");
@@ -51,24 +57,28 @@ public class ContactFormFragment extends SherlockFragment{
 		return ov;
 	}
 	
+	/******
+	 * Precondition: called by android system
+	 * Postcondition: if the user has previously entered an email, it fills out the form with the previously given name, email address, and phone number, for ease of use.
+	 */
 	public void onStart(){
 		super.onStart();
 		context = ((MainActivity)getActivity()).getApplicationContext();
 		emailList = ((MainActivity)getActivity()).getEmailList();
 		nameList = ((MainActivity)getActivity()).getContactButtonNames();
 		res = ((MainActivity)getActivity()).getResources();
-		SP_NAME = res.getString(R.string.SP_NAME);
-		sp = ((MainActivity)getActivity()).getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
-		spe = sp.edit();
-		String prevName = sp.getString("name", "");
+		SP_NAME = res.getString(R.string.SP_NAME); //like a file name shared_preferences_my_app.txt 
+		sp = ((MainActivity)getActivity()).getSharedPreferences(SP_NAME, Context.MODE_PRIVATE); //key value storage
+		spe = sp.edit(); //edit the key value storage
+		String prevName = sp.getString("name", ""); //retrieve previous name
 		Log.i("Aaaaaaaaaaa", prevName + "a");
-		String prevEmail = sp.getString("email", "");
-		String prevPhone = sp.getString("phone", "");
-		if(emailList != null && !emailList.isEmpty()){
-			emails = true;
-		}
-		
-		TextView sendTo =(TextView) ((MainActivity)getActivity()).findViewById(R.id.sending_to_textview);
+		String prevEmail = sp.getString("email", ""); //retrieve previous email
+		String prevPhone = sp.getString("phone", ""); //retrieve previous phone number
+//		if(emailList != null && !emailList.isEmpty()){
+//			emails = true;
+//		}
+//		
+		TextView sendTo =(TextView) ((MainActivity)getActivity()).findViewById(R.id.sending_to_textview); //displays the name of the person the email is going to
 		sendTo.setText(nameList.get(contactPosition));
 		
 		EditText returnEmailET = (EditText)((MainActivity)getActivity()).findViewById(R.id.ReturnEmailEditText);
@@ -82,6 +92,15 @@ public class ContactFormFragment extends SherlockFragment{
 		Button sendButton = (Button) ((MainActivity)getActivity()).findViewById(R.id.button1);
 		sendButton.setOnClickListener(new SendButtonListener());
 	}
+	
+	/***
+	 * This class decides how the send button behaves. Originally, it would show a message asking whether the
+	 * user wants to add their email to the newsletter list, but that was removed because of lack of implementation
+	 * on the database side.
+	 * 
+	 * Now, it just attempts to open the email client the user has and the user has to press send to send the message
+	 *
+	 */
 	private class SendButtonListener implements View.OnClickListener{
 		public void onClick(View view) {
 			String[] emailStringArray = (String[]) emailList.toArray(new String[emailList.size()]);
@@ -92,7 +111,7 @@ public class ContactFormFragment extends SherlockFragment{
 			EditText returnEmailET = (EditText) ((MainActivity)getActivity()).findViewById(R.id.ReturnEmailEditText);
 			EditText phoneNumberET = (EditText) ((MainActivity)getActivity()).findViewById(R.id.ReturnPhoneEditText);
 			EditText nameET = (EditText) ((MainActivity)getActivity()).findViewById(R.id.NameEditText);
-
+			// getting the message to send, while storing values for later ease of use
 			email_body += "Message from:  ";
 			email_body += nameET.getText();
 			if (nameET.getText() == null || nameET.getText().equals("")) {
@@ -182,6 +201,11 @@ public class ContactFormFragment extends SherlockFragment{
 		}
 		
 	}
+	/******8
+	 * 
+	 * Precondition: Given the list of emails to send to, the message body, and the subject
+	 * Postcondition: Starts the mail client with those parameters
+	 */
 	public void sendEmail(String[] emailStringArray, String email_body, String email_subject){
 		if (emailStringArray != null) {
 			Intent i = new Intent(Intent.ACTION_SEND);
@@ -192,6 +216,11 @@ public class ContactFormFragment extends SherlockFragment{
 			startActivity(Intent.createChooser(i, "Send Email"));
 		}
 	}
+	/*******
+	 * 
+	 * Unused class for creating the dialog mentioned above that would add the email to the database
+	 *
+	 */
 	private class MyDialog implements DialogInterface.OnClickListener{
 		String[] esa;
 		String eb, es;

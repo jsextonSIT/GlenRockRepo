@@ -1,10 +1,14 @@
+/**********
+ * This class is used by the Calendar and Trash sections, in order to format the date into the correct format.
+ */
 
 package com.glenrockappv1;
 
-import java.io.IOException;
+//import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+/*
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -23,7 +27,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
-
+*/
 public class Utility {
 	public static ArrayList<String> nameOfEvent = new ArrayList<String>();
 	public static ArrayList<String> startDates = new ArrayList<String>();
@@ -59,11 +63,14 @@ public class Utility {
 		return nameOfEvent;
 	}
 */
-	
+	/*
+	 * Precondition: Given the current date in milliseconds since the epoch
+	 * Postcondition: Returns the current date in the format YYYY-MM-DD
+	 */
 	public static String getDate(long milliSeconds) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(milliSeconds);
-		return formatter.format(calendar.getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); //used to set the correct format
+		Calendar calendar = Calendar.getInstance(); //new instance of built in Calendar class
+		calendar.setTimeInMillis(milliSeconds); //filling in the needed field of the Calendar class
+		return formatter.format(calendar.getTime()); //formatting the time.
 	}
 }

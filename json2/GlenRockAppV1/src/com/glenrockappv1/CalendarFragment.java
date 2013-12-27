@@ -1,3 +1,7 @@
+/**********
+ * This class is for displaying the grid that the calendar is on in the calendar section.
+ */
+
 package com.glenrockappv1;
 
 import java.text.DateFormat;
@@ -74,6 +78,9 @@ public class CalendarFragment extends SherlockFragment {
 		
 		
 	}
+	/***
+	 * Precondition: called when app is "resumed" by android system - whenever screen is switched to another app
+	 */
 	public void onResume(){
 		super.onResume();
 		Locale.setDefault(Locale.US);
@@ -89,10 +96,10 @@ public class CalendarFragment extends SherlockFragment {
 		//RelativeLayout parentrl =(RelativeLayout) ((MainActivity)getActivity()).findViewById(R.id.calendar_frag_rl);
 		//LayoutInflater gridInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //View v = gridInflater.inflate(R.layout.calendar, null);
-		gridview = (GridView) vv.findViewById(R.id.gridview);
+		gridview = (GridView) vv.findViewById(R.id.gridview); //the grid the calendar is displayed with
 
 		
-		tmpAdapter = new CalendarAdapter(((MainActivity)getActivity()).getApplicationContext(), month, null);
+		tmpAdapter = new CalendarAdapter(((MainActivity)getActivity()).getApplicationContext(), month, null); //so you can refresh the days at least one
 		ArrayList<String> days = new ArrayList<String>(tmpAdapter.refreshDays());
 		Log.i("Hello", days.toString());
 		adapter = new CalendarAdapter(((MainActivity)getActivity()), month, days);
@@ -111,13 +118,13 @@ public class CalendarFragment extends SherlockFragment {
 		handler = new Handler();
 		handler.post(calendarUpdater);
 
-		TextView title = (TextView) ((MainActivity)getActivity()).findViewById(R.id.title);
-		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
+		TextView title = (TextView) ((MainActivity)getActivity()).findViewById(R.id.title); //sets the month and year at the top of the screen
+		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month)); //sets the format of the month and year
 
 		RelativeLayout previous = (RelativeLayout) ((MainActivity)getActivity()).findViewById(R.id.previous);
 
 		previous.setOnClickListener(new OnClickListener() {
-
+			//sets a new month to the previous month and refreshes the dates in the grid
 			@Override
 			public void onClick(View v) {
 				setPreviousMonth();
@@ -127,6 +134,7 @@ public class CalendarFragment extends SherlockFragment {
 		refreshCalendar();
 		RelativeLayout next = (RelativeLayout) ((MainActivity)getActivity()).findViewById(R.id.next);
 		next.setOnClickListener(new OnClickListener() {
+			//sets a new month to the next month and refreshes the dates in the grid
 
 			@Override
 			public void onClick(View v) {
@@ -179,42 +187,54 @@ public class CalendarFragment extends SherlockFragment {
 		gridview.setAdapter(adapter);
 		doJSONStuff(lastgriddate);
 	}
+	
+	/*****
+	 * Precondition: given a date in the format YYYY-MM-DD
+	 * Postcondition: gets the first 7 database entries after the given date.
+	 */
 	public void doJSONStuff(String date){
 		ArrayList<CalendarEventArticle> articles = new ArrayList<CalendarEventArticle>();
 		JSONArray calJArray;
 		JSONObject calJObject;
 		//String calJString;
-		PostJsonTask jTask = new PostJsonTask();
+		PostJsonTask jTask = new PostJsonTask();//allows the app to send arguments to php scripts
 		try {
 			
 			
-			String calJString = jTask.execute(date, "http://10.0.2.2/calendar.php").get();
+			String calJString = jTask.execute(date, "http://10.0.2.2/calendar.php").get(); //ip of the server
 			calJObject = new JSONObject(calJString);
-			calJArray = calJObject.getJSONArray("calendar");
+			calJArray = calJObject.getJSONArray("calendar"); //json array name is calendar
 			
 			//Log.v("MainActivity_jObject", newsJObject.toString());
 			//Log.v("MainActivity_jArray", newsJArray.toString());
 			JSONObject tmp;
 			for (int i = 0; i < calJArray.length(); i++){
-				tmp = calJArray.getJSONObject(i);
+				tmp = calJArray.getJSONObject(i); 
 				String desc = tmp.getString("Event_Description");
-				desc = desc.replaceAll("\\<.*?\\>", "");
+				desc = desc.replaceAll("\\<.*?\\>", ""); //removing html tags from the description
 				articles.add(new CalendarEventArticle(tmp.getInt("Event_ID"), tmp.getString("Event_Title"), desc, tmp.getString("Event_StartTime"), tmp.getString("Event_Contact"), tmp.getString("Event_Location"), tmp.getString("Event_Start")));
-				
+				//gets all the attribute names and puts it into a calendareventarticle
 			}
 			showCalendarEvents(articles);
 		} catch (Exception e){
 			Log.i("exceptioneeeeeeeeee", e.toString());
 		}
 	}
-	
+	/*******
+	 * Precondition: Given a list of events
+	 * Postcondition: Displays the list of  events underneath the calendar
+	 */
 	private void showCalendarEvents(ArrayList<CalendarEventArticle> ceas){
 		ListView lv = (ListView) vv.findViewById(R.id.calendar_short_event_list);
 		
 		CalendarShortEventListAdapter csela = new CalendarShortEventListAdapter((MainActivity)getActivity(), ceas);
 		lv.setAdapter(csela);
 	}
+	/***************
+	 * Postcondition: changes the month to the month that comes after the current month
+	 */
 	protected void setNextMonth() {
+		//moves the month forward, going forward a year if necessary
 		if (month.get(GregorianCalendar.MONTH) == month
 				.getActualMaximum(GregorianCalendar.MONTH)) {
 			month.set((month.get(GregorianCalendar.YEAR) + 1),
@@ -225,8 +245,11 @@ public class CalendarFragment extends SherlockFragment {
 		}
 
 	}
-
+	/***************
+	 * Postcondition: changes the month to the month that comes before the current month
+	 */
 	protected void setPreviousMonth() {
+		//moves the month backward, going backward a year if necessary
 		if (month.get(GregorianCalendar.MONTH) == month
 				.getActualMinimum(GregorianCalendar.MONTH)) {
 			month.set((month.get(GregorianCalendar.YEAR) - 1),

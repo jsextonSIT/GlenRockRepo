@@ -1,3 +1,7 @@
+/**********
+ * This class is for displaying information about a given trash event. This is the individual page for that event.
+ * It is shown when the user clicks on the title of an event.
+ */
 package com.glenrockappv1;
 
 import android.os.Bundle;
@@ -25,8 +29,11 @@ public class CalendarEventArticleFragment extends SherlockFragment {
 		return fragment;
 	}
 	@Override
+	//sets all fields in the event layout
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.calendar_article_fragment,container, false);
+		
+		//gets all the textview ids from the layouts
 		article = (CalendarEventArticle) getArguments().getParcelable("article");
 		title = (TextView)view.findViewById(R.id.calendar_article_title);
 		desc = (TextView)view.findViewById(R.id.calendar_article_desc);
@@ -35,6 +42,7 @@ public class CalendarEventArticleFragment extends SherlockFragment {
 		contact = (TextView)view.findViewById(R.id.calendar_article_contact);
 		date = (TextView)view.findViewById(R.id.calendar_article_date);
 			
+		//sets all the text in the textviews
 		title.setText(article.title);
 		desc.setText(article.desc);
 		time.setText(article.time);
