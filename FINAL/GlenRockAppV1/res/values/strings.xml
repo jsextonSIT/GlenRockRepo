@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Glen Rock</string>
+    <string name="welcome_intro">WELCOME</string>
+    <string name="welcome_loading">Loading&#8230;</string>
+    <string name="action_settings">Settings</string>
+    <string name="refresh_news">Refresh News</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="lorum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris dictum metus sed velit commodo posuere. Ut sed purus sit amet purus pulvinar imperdiet ut quis arcu. Suspendisse adipiscing lacinia urna, sed accumsan turpis iaculis vel. Mauris dictum, tortor at porta ullamcorper, nisl diam tincidunt enim, vitae dapibus odio eros quis orci. Praesent egestas massa euismod metus molestie lacinia congue sed purus. Vivamus justo eros, mollis sed orci</string>
+
+    <string-array name="navigation_array">
+
+        <!-- <item>Emergency</item> -->
+        <item>News</item>
+        <item>Calendar</item>
+        <item>Local</item>
+        <item>Trash/Recycling</item>
+        <item>Contact</item>
+    </string-array>
+
+    <string name="drawer_open">open drawer</string>
+    <string name="drawer_close">close drawer</string>
+    <string name="read_on">Read On</string>
+
+    <string-array name="stock_news_headers">
+        <item>Emerson Road Will be Closed at Belmont Road on Monday 10/14 Due to Ongoing Construction</item>
+        <item>Leaf Collection To Begin on 10/16</item>
+        <item>Glen Rock Police Taking Back Unwanted Prescription Drugs on October 26 at GRPD Headquarters</item>
+        <item>Flu Shots for Residents 18+ Available at Borough Hall on October 7</item>
+        <item>Ad Space Available in 2014 Borough Calendar</item>
+        <item>Seniors &amp; Volunteers: It\'s Time to Sign Up for The Big Sweep!</item>
+    </string-array>
+    <string-array name="stock_news_fillers">
+        <item>UPDATE 10/11: On Monday October 14th, please avoid the intersection of Emerson Rd. and Belmont Rd. Due to a sewer pipe being installed across Emerson Rd in the afternoon, this intersection will be closed for a period of time with no access. Please use alternate route. Thank you!</item>
+        <item>The Glen Rock Department of Public Works will begin curbside leaf collection on Wednesday, October 16, 2013, in District 1. Weather permitting, collection will continue through December 31, 2013. Leaf collection begins in Voting District 1, then cycles through the remaining 7 districts, and repeats.</item>
+        <item>On October 26 from 10 a.m. to 2 p.m. the Glen Rock Police Department and the Drug Enforcement Administration (DEA) will give the public its seventh opportunity in three years to prevent pill abuse and theft by ridding their homes of potentially dangerous expired, unused, and unwanted prescription drugs. Bring your medications for disposal to the Glen Rock Police Department Headquarters at 1 Harding Plaza, Glen Rock NJ. The service is free and anonymous, no questions asked.</item>
+        <item>Seasonal Flu and Pneumonia shots for Glen Rock Residents only will be given Monday, October 7th from 9:30 #8211; 11:30 a.m. (please do not arrive earlier than 9:15 a.m.) at the Glen Rock Municipal Building, 1 Harding Plaza. This year vaccines will be available to any resident 18 years of age or older. </item>
+        <item>If you would like to place an ad in the 2014 borough calendar, the price is $350 for one ad, $550 for two ads and $750 for three ads. Your ad must be in pdf format on a disc and copy ready. </item>
+        <item>For the past several years, a community-wide project called “The Big Sweep” has been working to ease the burden of fall cleanup for Glen Rock’s senior citizens. Residents in town, including students, families, scouts and church and community groups have generously volunteered their time and efforts to assist their neighbors with raking.</item>
+    </string-array>
+    <string-array name="go_local_button_names">
+        <item>Leisure/Entertainment/Arts</item>
+        <item>Education</item>
+        <item>Home Repair and Construction</item>
+        <item>Healthcare/Medical</item>
+        <item>Real Estate</item>
+        <item>Banking/Financial Services</item>
+        <item>Retail</item>
+        <item>Salons and Spas</item>
+        <item>Restaurants/Food/Catering</item>
+        <item>Professional Services</item>
+        <!-- <item>Fitness</item> -->
+    </string-array>
+    <string-array name="go_local_leisure_business_names">
+        <item>Leisure Business 1</item>
+        <item>Leisure Business 2</item>
+        <item>Leisure Business 3</item>
+        <item>Leisure Business 4</item>
+        <item>Leisure Business 5</item>
+    </string-array>
+    <string-array name="go_local_leisure_business_addresses">
+        <item>address 1</item>
+        <item>address2</item>
+        <item>address3</item>
+        <item>address4</item>
+        <item>address 5</item>
+    </string-array>
+    <string-array name="go_local_leisure_business_phone_numbers">
+        <item>phone1</item>
+        <item>phone2</item>
+        <item>phone3</item>
+        <item>phone4</item>
+        <item>phone5</item>
+    </string-array>
+    <string-array name="go_local_business_category_tags">
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="contact_button_names">
+        <item>Emergency (911)</item>
+        <item>Police (non-emergency)</item>
+        <item>Administration</item>
+        <item>Building &amp; Zoning</item>
+        <item>Dept of Public Works</item>
+        <item>Parks &amp; Recreation</item>
+        <item>Mayor</item>
+        <item>Mayor and Council</item>
+    </string-array>
+    <string-array name="contact0_emails"></string-array>
+    <string-array name="contact1_emails"></string-array>
+    <string-array name="contact2_emails">
+        <item>Lbenjamin@glenrocknj.net</item>
+    </string-array>
+    <string-array name="contact3_emails">
+        <item>bfrugis@glenrocknj.net</item>
+    </string-array>
+    <string-array name="contact4_emails">
+        <item>publicworks@glenrocknj.net</item>
+    </string-array>
+    <string-array name="contact5_emails">
+        <item>mbarone@glenrocknj.net</item>
+    </string-array>
+    <string-array name="contact6_emails">
+        <item>jvankeuren@glenrocknj.net</item>
+    </string-array>
+    <string-array name="contact7_emails">
+        <item>jvankeuren@glenrocknj.net</item>
+        <item>pbiggs@glenrocknj.net</item>
+        <item>cnogara@glenrocknj.net</item>
+        <item>Mohagan@glenrocknj.net</item>
+        <item>Jorseck@glenrocknj.net</item>
+        <item>Apazan@glenrock.net</item>
+        <item>Mjsurrago@glenrocknj.net</item>
+    </string-array>
+    <string-array name="contact8_emails"></string-array>
+
+    <integer-array name="PhoneOrEmailOrBoth">
+        <item>1</item>
+        <item>1</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+    </integer-array>
+
+    <string-array name="contact_phone_list">
+        <item>911</item>
+        <item>201-652-3800</item>
+        <item>201-670-3956</item>
+        <item>201-670-3965</item>
+        <item>201-670-3979</item>
+        <item>201-670-3951</item>
+        <item>201-670-3956</item>
+        <item>201-670-3956</item>
+    </string-array>
+
+    <string name="return_email"><i>return email</i></string>
+    <string name="your_name"><i>your name</i></string>
+    <string name="SP_NAME">glenrockapp_shared_preferences_name</string>
+
+</resources>
