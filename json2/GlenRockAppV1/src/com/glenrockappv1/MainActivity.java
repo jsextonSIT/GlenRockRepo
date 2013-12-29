@@ -1,3 +1,6 @@
+/***********
+ * This class is for communicating information between all the fragments.
+ */
 package com.glenrockappv1;
 
 import java.util.ArrayList;
@@ -32,9 +35,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends SherlockFragmentActivity implements
-		NewsListAdapter.ArticleSelectedListener,
-		CalendarShortEventListAdapter.CalendarArticleSelectedListener,
-		TrashShortEventListAdapter.TrashArticleSelectedListener {
+NewsListAdapter.ArticleSelectedListener,
+CalendarShortEventListAdapter.CalendarArticleSelectedListener,
+TrashShortEventListAdapter.TrashArticleSelectedListener {
 	private final static String TAG_NEWS_FRAGMENT = "NEWS_FRAGMENT";
 	private final static String TAG_CALENDAR_FRAGMENT = "CALENDAR_FRAGMENT";
 	private final static String TAG_TRASH_FRAGMENT = "TRASH_FRAGMENT";
@@ -50,7 +53,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 	private ActionBarDrawerToggle navDrawerToggle;
 	private FragmentManager fragmentManager;
 	private int cFragment; // current fragment index, starting at 0, opens to
-							// 1(news)
+	// 1(news)
 
 	// JSON
 	private String jString;
@@ -94,24 +97,28 @@ public class MainActivity extends SherlockFragmentActivity implements
 	private ListView drawer;
 	private TextView welcome;
 
+	/* Generic android func called when app is started - sets up everything
+	 * input: Bundle of previous state of app if there was any
+	 * output: void
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
 		debug = true;
-		
+
 		setContentView(R.layout.activity_main);
-		
-		
+
+
 		//if (debug) {
-			//loadingLayout = (LinearLayout) findViewById(R.id.loading_layout);
-			//loadingLayout.setVisibility(LinearLayout.VISIBLE);
-			
-			welcome = (TextView) findViewById(R.id.welcome_text);
-			welcome.setVisibility(View.VISIBLE);
-//		} else {
-//			
-//		}
+		//loadingLayout = (LinearLayout) findViewById(R.id.loading_layout);
+		//loadingLayout.setVisibility(LinearLayout.VISIBLE);
+
+		//welcome = (TextView) findViewById(R.id.welcome_text);
+		//welcome.setVisibility(View.VISIBLE);
+		//		} else {
+		//			
+		//		}
 		// RESOURCES AND SHARED PREFERENCES
 		res = getResources();
 		SP_NAME = res.getString(R.string.SP_NAME);
@@ -134,16 +141,19 @@ public class MainActivity extends SherlockFragmentActivity implements
 		navDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		getSupportActionBar().setHomeButtonEnabled(true);
 		navDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		navDrawerLayout, /* DrawerLayout object */
-		R.drawable.menuicon, /* nav drawer image to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description for accessibility */
-		R.string.drawer_close /* "close drawer" description for accessibility */
-		);
+				navDrawerLayout, /* DrawerLayout object */
+				R.drawable.menuicon, /* nav drawer image to replace 'Up' caret */
+				R.string.drawer_open, /* "open drawer" description for accessibility */
+				R.string.drawer_close /* "close drawer" description for accessibility */
+				);
 		navDrawerLayout.setDrawerListener(navDrawerToggle);
 		//welcome.setVisibility(TextView.INVISIBLE);
-		
+
 	}
 
+	/*************
+	 * Accessor methods
+	 *****/
 	public ArrayList<Article> getNewsArticles() {
 		return newsArticles;
 	}
@@ -204,24 +214,24 @@ public class MainActivity extends SherlockFragmentActivity implements
 	}
 
 	public void getData(){
-		
+
 	}
 	@Override
+	/************
+	 * Precondition: called when the android system “starts” the app - although this can happen for example when a phone call ends and the app is “restarted”.
+	 * Postcondition: sets up all the array lists of information for the different fragments.
+	 */
 	public void onStart() {
 		super.onStart();
 		if (!isOnline()){
 			TextView loadingText = (TextView) findViewById(R.id.loading_text);
 			loadingText.setText("Please Connect to the Internet and restart");
 			Toast.makeText(getApplicationContext(), "Network Connection Needed",
-					   Toast.LENGTH_LONG).show();
+					Toast.LENGTH_LONG).show();
 			return;
 		}
-		goLocalBusinessNames = new ArrayList<String>();
-		goLocalAddresses = new ArrayList<String>();
-		goLocalPhoneNumbers = new ArrayList<String>();
-		goLocalWebsites = new ArrayList<String>();
-		// this is hacky ^ we need to fix goLocalDirFragment because it crashes
-		// if this is null.
+
+
 
 
 		// CALENDAR
@@ -244,6 +254,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 
 		// GOLOCAL
+		goLocalBusinessNames = new ArrayList<String>();
+		goLocalAddresses = new ArrayList<String>();
+		goLocalPhoneNumbers = new ArrayList<String>();
+		goLocalWebsites = new ArrayList<String>();
 		goLocalButtonNames = new ArrayList<String>(Arrays.asList(res
 				.getStringArray(R.array.go_local_button_names)));
 
@@ -253,22 +267,30 @@ public class MainActivity extends SherlockFragmentActivity implements
 				.getStringArray(R.array.contact_button_names)));
 		phoneList = new ArrayList<String>(Arrays.asList(res
 				.getStringArray(R.array.contact_phone_list)));
-		
+
 		//change layout to transition from loading to fragments
 		loadingLayout = (LinearLayout) findViewById(R.id.loading_layout);
 		container = (FrameLayout) findViewById(R.id.fragment_container);
 		drawer = (ListView) findViewById(R.id.left_drawer);
-		
+
 		//elcome.setVisibility(View.INVISIBLE);
 		if (refreshNewsArticles()){
-		navPage(cFragment);
+			navPage(cFragment);
 		}
 	}
+	/* method to hide the loading screen
+	 * input: nothing
+	 * output: nothing, sets visibilities of layouts to hide the loading
+	 */
 	public void hideLoading(){
 		loadingLayout.setVisibility(TextView.GONE);
 		container.setVisibility(View.VISIBLE);
 		drawer.setVisibility(View.VISIBLE);
 	}
+	/* method to show the loading screen
+	 * input: nothing
+	 * output: nothing, sets visibilities of layouts to show the loading
+	 */
 	public void showLoading(){
 		loadingLayout.setVisibility(TextView.VISIBLE);
 		container.setVisibility(View.GONE);
@@ -276,14 +298,14 @@ public class MainActivity extends SherlockFragmentActivity implements
 		//welcome.setVisibility(View.INVISIBLE);
 	}
 	/* get the most up to date news from the glen rock website
-	* input: void
-	* output: boolean (true if successfully retrieved articles from server, false on fail)
-	*/
+	 * input: void
+	 * output: boolean (true if successfully retrieved articles from server, false on fail)
+	 */
 	public boolean refreshNewsArticles() {
 		// NEWS
 		newsArticles = new ArrayList<Article>();
 		GetJsonTask newsJTask = new GetJsonTask();
-		showLoading();
+		//showLoading();
 		try {
 			// this line ensures that the query will execute before moving
 			// forward, the variable assignment is responsible
@@ -300,10 +322,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 					temp = new Article(newsJArray.getJSONObject(i).getString(
 							"newsID"),
 							newsJArray.getJSONObject(i).getString("newsTitle")
-									.replaceAll("\\<.*?\\>", ""), newsJArray
-									.getJSONObject(i).getString("newsDesc")
-									.replaceAll("\\<.*?\\>", ""), newsJArray
-									.getJSONObject(i).getString("DateAdded"));
+							.replaceAll("\\<.*?\\>", ""), newsJArray
+							.getJSONObject(i).getString("newsDesc")
+							.replaceAll("\\<.*?\\>", ""), newsJArray
+							.getJSONObject(i).getString("DateAdded"));
 					// Log.i("article title", temp.title);
 					newsArticles.add(temp);
 				}
@@ -330,7 +352,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		hideLoading();
 		return true;
 	}
-
+	/* Opens navigation drawer when clicking home icon
+	 * input: menuitem which was selected
+	 * output: true if the touch event was handled, false otherwise
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Pass the event to ActionBarDrawerToggle, if it returns
@@ -348,9 +373,13 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 		return super.onOptionsItemSelected(item);
 	}
-
+	//handles clicking of items in the navigation drawer
 	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	ListView.OnItemClickListener {
+
+		/* input: int as index of which option selected in navigation drawer
+		 *output: nothing, calls navPage on the position to navigate to that fragment
+		 */
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -358,6 +387,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 	}
 
+	/********
+	 * Precondition: Given the position of which button on the menu the user clicked.
+	 * Postcondition: Navigates to that fragment.
+	 */
 	private void navPage(int position) {
 		if (true) {
 			navDrawerList.setItemChecked(position, true);
@@ -412,7 +445,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 		navDrawerLayout.closeDrawer(navDrawerList);
 	}
-
+	/* Makes request to populate data for businesses based on category
+	input: position of click
+	output: void
+	 */
 	public void goLocalButtonFragmentNavigator(int position) {
 		fragmentManager = getSupportFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -465,7 +501,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		// GETTIN DAT JSON
 		GetJsonTask jTask = new GetJsonTask();
 		try {
-			jString = jTask.execute("http://10.0.2.2/" + json_key + ".php")
+			jString = jTask.execute("http://glenrocknj.net/" + json_key + ".php")
 					.get();
 			jObject = new JSONObject(jString);
 			jArray = jObject.getJSONArray(json_key);
@@ -502,7 +538,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 				TAG_GO_LOCAL_DIRECTORY_FRAGMENT).addToBackStack("goLocalDir");
 		transaction.commit();
 	}
-
+	/* Displays appropriate contact information when contact button is clicked
+	 * input: position of click
+	 * output: void
+	 */
 	public void contactButtonFragmentNavigator(int position) {
 		fragmentManager = getSupportFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -556,17 +595,23 @@ public class MainActivity extends SherlockFragmentActivity implements
 	public void calendarClickFragmentNavigator(int position) {
 
 	}
-
+	/*  Saves the instancestate to be redisplayed on restart
+	 * input: bundle including the saved instance state
+	 * output: nothing
+	 */
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putInt("cFragment", cFragment);
 	}
-
+	/* returns nothing, brings a new article fragment to front
+	 * input: article to be displayed
+	 * output: nothing, displays article
+	 */
 	@Override
 	public void onArticleSelected(Article item) {
-		Log.i("article title", item.title);
-		Log.i("article text", item.text);
+		//Log.i("article title", item.title);
+		//Log.i("article text", item.text);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		SherlockFragment fragment = ArticleFragment.newInstance(item);
 		ft.replace(R.id.fragment_container, fragment);
@@ -574,7 +619,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		ft.commit();
 
 	}
-
+	/* brings a calendararticle to the front
+	 * input: calendareventarticle to be displayed
+	 * output: nothing, displays a calendar event
+	 */
 	@Override
 	public void onArticleSelected(CalendarEventArticle item) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -585,7 +633,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		ft.commit();
 
 	}
-
+	/***********
+	 * Precondition: receives a TrashEventArticle
+	 * Postcondition: Sets up the display page for that article
+	 */
 	public void onArticleSelected(TrashEventArticle item) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		SherlockFragment fragment = TrashEventArticleFragment.newInstance(item);
@@ -594,7 +645,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		ft.commit();
 
 	}
-	
+	/* returns true if a connection can be made to internet, false otherwise
+	 * input: nothing
+	 * output: boolean
+	 */
 	public boolean isOnline(){
 		ConnectivityManager CManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo NInfo = CManager.getActiveNetworkInfo();
@@ -615,3 +669,5 @@ public class MainActivity extends SherlockFragmentActivity implements
 	 * currFrag.onResume(); } } }; return result; }
 	 */
 }
+
+
