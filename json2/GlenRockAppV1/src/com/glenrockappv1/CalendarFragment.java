@@ -201,7 +201,7 @@ public class CalendarFragment extends SherlockFragment {
 		try {
 			
 			
-			String calJString = jTask.execute(date, "http://10.0.2.2/calendar.php").get(); //ip of the server
+			String calJString = jTask.execute(date, "http://glenrocknj.net/calendar.php").get(); //ip of the server
 			calJObject = new JSONObject(calJString);
 			calJArray = calJObject.getJSONArray("calendar"); //json array name is calendar
 			

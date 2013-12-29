@@ -198,7 +198,7 @@ public class TrashFragment extends SherlockFragment {
 		try {
 			
 			
-			String calJString = jTask.execute(date, "http://10.0.2.2/trash.php").get(); //choosing the ip of the server
+			String calJString = jTask.execute(date, "http://glenrocknj.net/trash.php").get(); //choosing the ip of the server
 			calJObject = new JSONObject(calJString);
 			calJArray = calJObject.getJSONArray("trash"); //name of the array in the json object
 			
