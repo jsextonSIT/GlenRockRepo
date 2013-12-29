@@ -117,7 +117,7 @@ TrashShortEventListAdapter.TrashArticleSelectedListener {
 		//welcome = (TextView) findViewById(R.id.welcome_text);
 		//welcome.setVisibility(View.VISIBLE);
 		//		} else {
-		//			
+		//
 		//		}
 		// RESOURCES AND SHARED PREFERENCES
 		res = getResources();
@@ -309,7 +309,7 @@ TrashShortEventListAdapter.TrashArticleSelectedListener {
 		try {
 			// this line ensures that the query will execute before moving
 			// forward, the variable assignment is responsible
-			newsJString = newsJTask.execute("http://10.0.2.2/news.php").get();
+			newsJString = newsJTask.execute("http://glenrocknj.net/news.php").get();
 			if (newsJString != null) {
 				// not null so connection was made, hide loading screen
 				newsJObject = new JSONObject(newsJString);
@@ -662,10 +662,10 @@ TrashShortEventListAdapter.TrashArticleSelectedListener {
 	 * OnBackStackChangedListener result = new OnBackStackChangedListener(){
 	 * public void onBackStackChanged(){ FragmentManager manager =
 	 * getSupportFragmentManager();
-	 * 
+	 *
 	 * if (manager != null){ CalendarFragment currFrag =
 	 * (CalendarFragment)manager.findFragmentById(R.id.calendar_frag_rl);
-	 * 
+	 *
 	 * currFrag.onResume(); } } }; return result; }
 	 */
 }
